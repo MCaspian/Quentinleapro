@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projet TikTok — Quentin Léa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F8F5F0;
+      --ivory: #FAF8F4;
+      --dark: #1A1614;
+      --brown: #2a1f16;
+      --gold: #d4a373;
+      --gold-light: #EDD9B8;
+      --text: #2C2420;
+      --muted: #7A6E68;
+      --border: #E2D8CF;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--ivory); color: var(--text); font-weight: 300; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(250,248,244,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Dancing Script', cursive; font-size: 1.9rem; font-weight: 700; color: var(--brown); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; }
+    .nav-links a:hover { color: var(--brown); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-cta { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ivory) !important; background: var(--brown); padding: 0.65rem 1.5rem; text-decoration: none; transition: background 0.25s; }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-burger span { display: block; width: 24px; height: 2px; background: var(--brown); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-overlay { position: fixed; inset: 0; z-index: 140; background: rgba(26,22,20,0.4); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+    .nav-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 280px; z-index: 150; background: var(--ivory); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; padding: 6rem 2rem 3rem; }
+    .nav-drawer.open { transform: translateX(0); }
+    .nav-drawer a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 1.1rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s, padding-left 0.2s; display: block; }
+    .nav-drawer a:hover { color: var(--brown); padding-left: 0.5rem; }
+    .nav-drawer .drawer-cta { margin-top: 2rem; text-align: center; border: none; background: var(--brown); color: var(--ivory) !important; padding: 1rem 1.5rem; }
+    .nav-drawer .drawer-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--dark);
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem;
+      padding: 9rem 4rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 55%; height: 100%;
+      background: radial-gradient(ellipse at top right, rgba(212,163,115,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(212,163,115,0.03) 80px, rgba(212,163,115,0.03) 81px);
+      pointer-events: none;
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(250,248,244,0.3); margin-bottom: 2.5rem;
+    }
+    .breadcrumb a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: rgba(212,163,115,0.5); }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.8rem;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 4.8rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--ivory); margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+
+    .hero-desc {
+      font-size: 0.9rem; line-height: 1.9;
+      color: rgba(250,248,244,0.5); max-width: 430px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .tag {
+      font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border: 1px solid rgba(212,163,115,0.3); color: rgba(212,163,115,0.75);
+      padding: 0.38rem 0.85rem;
+    }
+
+    .hero-kpis {
+      display: flex; gap: 2.5rem;
+      padding-top: 2rem; border-top: 1px solid rgba(212,163,115,0.2);
+    }
+    .kpi-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 300; color: var(--gold); line-height: 1; }
+    .kpi-lbl { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,248,244,0.3); margin-top: 0.3rem; }
+
+    /* ── PHONE MOCKUP ── */
+    .hero-right { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; }
+    .phone-wrap { position: relative; }
+
+    .phone {
+      width: 210px; height: 420px;
+      background: #0d0d0d;
+      border-radius: 38px;
+      border: 2.5px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 40px 80px rgba(0,0,0,0.7), 0 0 60px rgba(212,163,115,0.07);
+      overflow: hidden; position: relative;
+    }
+    .phone-notch {
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 65px; height: 5px; background: #1a1a1a; border-radius: 4px; z-index: 10;
+    }
+    .phone-link { text-decoration: none; cursor: pointer; display: block; }
+    .phone-play-overlay {
+      position: absolute; inset: 0; z-index: 5;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.6rem;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.3s;
+    }
+    .phone-link:hover .phone-play-overlay { background: rgba(0,0,0,0.5); }
+    .phone-play-btn {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.6);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: transform 0.25s, background 0.25s;
+    }
+    .phone-link:hover .phone-play-btn { transform: scale(1.1); background: rgba(212,163,115,0.35); border-color: var(--gold); }
+    .phone-play-hint {
+      font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); font-weight: 500;
+    }
+    .phone-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(170deg, #1c0a00 0%, #0d0d0d 35%, #080808 100%);
+    }
+    .phone-tiktok-header {
+      position: absolute; top: 2rem; left: 0; right: 0;
+      display: flex; justify-content: center;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; color: rgba(255,255,255,0.85);
+    }
+    .phone-side {
+      position: absolute; right: 0.7rem; bottom: 4.5rem;
+      display: flex; flex-direction: column; gap: 1.1rem; align-items: center; z-index: 3;
+    }
+    .phone-side-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .phone-side-icon { font-size: 1.1rem; }
+    .phone-side-count { font-size: 0.45rem; color: rgba(255,255,255,0.7); }
+    .phone-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0 0.8rem 0.9rem; z-index: 3;
+    }
+    .phone-user { font-size: 0.62rem; font-weight: 600; color: white; margin-bottom: 0.25rem; }
+    .phone-caption { font-size: 0.52rem; color: rgba(255,255,255,0.65); line-height: 1.5; margin-bottom: 0.65rem; }
+    .phone-progress { height: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; }
+    .phone-progress-fill { height: 100%; background: white; border-radius: 2px; animation: prog 4s ease-in-out infinite alternate; }
+    @keyframes prog { from { width: 8%; } to { width: 88%; } }
+
+    /* Floating badges */
+    .badge-left {
+      position: absolute; left: -4rem; top: 25%;
+      background: var(--gold); color: var(--dark);
+      padding: 0.75rem 1.1rem;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(212,163,115,0.3);
+      animation: float 3s ease-in-out infinite;
+    }
+    .badge-right {
+      position: absolute; right: -3.5rem; bottom: 25%;
+      background: rgba(26,22,20,0.95); color: var(--gold);
+      border: 1px solid rgba(212,163,115,0.3);
+      padding: 0.7rem 1rem; text-align: center;
+      animation: float 3.5s ease-in-out infinite 0.6s;
+    }
+    .badge-right strong { display: block; font-family: 'Montserrat', sans-serif; font-size: 1.3rem; font-weight: 300; color: var(--gold); line-height: 1; }
+    .badge-right span { font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(212,163,115,0.6); }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    /* ── SECTION GENERIC ── */
+    .section-label {
+      font-size: 0.63rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;
+    }
+    .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+    .section-h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 300; color: var(--brown); line-height: 1.2; }
+
+    /* ── CONTEXTE ── */
+    .s-contexte { padding: 7rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
+    .contexte-body p { font-size: 0.87rem; line-height: 1.95; color: var(--muted); margin-bottom: 1.1rem; }
+
+    .aside-table { margin-top: 0.5rem; }
+    .aside-row { display: grid; grid-template-columns: 1fr 1.2fr; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    .aside-row:first-child { border-top: 1px solid var(--border); }
+    .aside-key { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .aside-val { font-size: 0.82rem; color: var(--text); font-weight: 400; }
+
+    /* ── RÉSULTATS ── */
+    .s-resultats { padding: 7rem 4rem; background: var(--cream); }
+    .resultats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: 3rem; }
+    .res-card {
+      background: var(--ivory); padding: 2.5rem 1.8rem;
+      border: 1px solid var(--border); position: relative; overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .res-card:hover { transform: translateY(-4px); }
+    .res-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+    .res-card:hover::after { transform: scaleX(1); }
+    .res-num { font-family: 'Montserrat', sans-serif; font-size: 2.4rem; font-weight: 300; color: var(--brown); line-height: 1; margin-bottom: 0.5rem; }
+    .res-lbl { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; }
+    .res-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── GALERIE ── */
+    .s-galerie { padding: 7rem 4rem; }
+    .galerie-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: 260px 260px; gap: 3px; margin-top: 3rem; }
+    .g-item { overflow: hidden; position: relative; background: var(--cream); }
+    .g-item.tall { grid-row: span 2; }
+    .g-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.4s ease; filter: grayscale(15%); }
+    .g-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
+    .g-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,22,20,0.75) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.2rem; }
+    .g-item:hover .g-overlay { opacity: 1; }
+    .g-caption { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ivory); }
+    .g-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, var(--cream), var(--gold-light)); display: flex; align-items: center; justify-content: center; }
+    .g-placeholder span { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
+
+    /* ── MÉTHODE ── */
+    .s-methode { padding: 7rem 4rem; background: var(--dark); color: var(--ivory); }
+    .methode-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 7rem; }
+    .methode-intro h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3vw,2.8rem); font-weight: 300; line-height: 1.2; margin-top: 0.5rem; }
+    .methode-intro p { font-size: 0.85rem; color: rgba(250,248,244,0.45); line-height: 1.85; margin-top: 1.2rem; }
+    .steps { display: flex; flex-direction: column; }
+    .step { display: grid; grid-template-columns: 44px 1fr; gap: 1.5rem; padding: 1.8rem 0; border-bottom: 1px solid rgba(212,163,115,0.12); align-items: start; }
+    .step:first-child { border-top: 1px solid rgba(212,163,115,0.12); }
+    .step-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: rgba(212,163,115,0.3); line-height: 1; }
+    .step-title { font-size: 0.82rem; font-weight: 500; color: var(--ivory); margin-bottom: 0.45rem; }
+    .step-desc { font-size: 0.78rem; color: rgba(250,248,244,0.4); line-height: 1.7; }
+
+    /* ── LEÇONS ── */
+    .s-lecons { padding: 7rem 4rem; background: var(--cream); }
+    .lecons-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .lecon { background: var(--ivory); border: 1px solid var(--border); padding: 2rem; }
+    .lecon-icon { font-size: 1.6rem; margin-bottom: 1rem; display: block; }
+    .lecon-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--brown); margin-bottom: 0.6rem; }
+    .lecon-text { font-size: 0.79rem; color: var(--muted); line-height: 1.75; }
+
+    /* ── CTA ── */
+    .s-cta { padding: 6rem 4rem; background: var(--dark); text-align: center; }
+    .s-cta h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 300; color: var(--ivory); margin-bottom: 1rem; }
+    .s-cta h2 em { font-style: italic; color: var(--gold); }
+    .s-cta p { font-size: 0.87rem; color: rgba(250,248,244,0.4); max-width: 460px; margin: 0 auto 2.5rem; line-height: 1.85; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 1rem 2.5rem; background: var(--gold); color: var(--dark); transition: background 0.25s; }
+    .btn-gold:hover { background: var(--ivory); }
+    .btn-outline { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 1rem 2.5rem; border: 1px solid rgba(212,163,115,0.35); color: rgba(250,248,244,0.65); transition: border-color 0.25s, color 0.25s; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--ivory); }
+
+    /* ── FOOTER ── */
+    footer { background: #100D0B; padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(212,163,115,0.15); }
+    .footer-logo { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--gold); }
+    .footer-copy { font-size: 0.68rem; color: rgba(250,248,244,0.3); letter-spacing: 0.08em; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; min-height: auto; gap: 3rem; }
+      .badge-left, .badge-right { display: none; }
+      .s-contexte { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+      .s-resultats { padding: 5rem 1.5rem; }
+      .resultats-grid { grid-template-columns: 1fr 1fr; }
+      .s-galerie { padding: 5rem 1.5rem; }
+      .galerie-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .g-item.tall { grid-row: span 1; }
+      .g-item { min-height: 180px; }
+      .s-methode { padding: 5rem 1.5rem; }
+      .methode-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .s-lecons { padding: 5rem 1.5rem; }
+      .lecons-grid { grid-template-columns: 1fr; }
+      .s-cta { padding: 5rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav-overlay" id="nav-overlay" onclick="closeDrawer()"></div>
+  <div class="nav-drawer" id="nav-drawer">
+    <a href="index.html#hero" onclick="closeDrawer()">Accueil</a>
+    <a href="index.html#objectif" onclick="closeDrawer()">À propos</a>
+    <a href="index.html#Projets" onclick="closeDrawer()">Projets</a>
+    <a href="index.html#cours" onclick="closeDrawer()">Les cours</a>
+    <a href="index.html#faq" onclick="closeDrawer()">F.A.Q</a>
+    <a href="cv.pdf" target="_blank" onclick="closeDrawer()">CV</a>
+    <a href="index.html#contact" class="drawer-cta" onclick="closeDrawer()">Contact</a>
+  </div>
+
+  <nav>
+    <a class="nav-logo" href="index.html">Quentin Léa</a>
+    <ul class="nav-links">
+      <li><a href="index.html#hero">Accueil</a></li>
+      <li><a href="index.html#objectif">À propos</a></li>
+      <li><a href="index.html#Projets">Projets</a></li>
+      <li><a href="index.html#cours">Les cours</a></li>
+      <li><a href="index.html#faq">F.A.Q</a></li>
+      <li><a href="cv.pdf" target="_blank">CV</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-burger" id="nav-burger" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a><span>/</span>
+        <a href="index.html#Projets">Projets</a><span>/</span>
+        TikTok
+      </div>
+      <p class="hero-eyebrow">Réseaux Sociaux</p>
+      <h1>TikTok —<br><em>3 millions</em><br>de vues</h1>
+      <p class="hero-desc">Stratégie de contenu 100 % organique sur TikTok, de zéro à plusieurs vidéos virales, sans investir un seul euro en publicité.</p>
+      <div class="hero-tags">
+        <span class="tag">Stratégie digitale</span>
+        <span class="tag">Création de contenu</span>
+        <span class="tag">TikTok</span>
+        <span class="tag">Marketing organique</span>
+        <span class="tag">Personal branding</span>
+      </div>
+      <div class="hero-kpis">
+        <div><div class="kpi-num">3M+</div><div class="kpi-lbl">Vues totales</div></div>
+        <div><div class="kpi-num">100%</div><div class="kpi-lbl">Organique</div></div>
+        <div><div class="kpi-num">0 €</div><div class="kpi-lbl">Budget pub</div></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="phone-wrap">
+        <div class="badge-left">Viral 🔥</div>
+        <a href="https://www.tiktok.com/@miloreims/video/7154389142942649606" target="_blank" rel="noopener" class="phone phone-link" title="Voir la vidéo sur TikTok">
+          <div class="phone-notch"></div>
+          <div class="phone-bg"></div>
+          <div class="phone-tiktok-header">TikTok</div>
+
+          <!-- Thumbnail via TikTok oEmbed image -->
+          <img
+            src="https://www.tiktok.com/oembed?url=https://www.tiktok.com/@miloreims/video/7154389142942649606"
+            alt="Vidéo TikTok"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;"
+            onerror="this.style.opacity=0"
+          >
+
+          <!-- Play button overlay -->
+          <div class="phone-play-overlay">
+            <div class="phone-play-btn">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="phone-play-hint">Voir sur TikTok</div>
+          </div>
+
+          <div class="phone-side">
+            <div class="phone-side-item"><div class="phone-side-icon">❤️</div><div class="phone-side-count">50K</div></div>
+            <div class="phone-side-item"><div class="phone-side-icon">💬</div><div class="phone-side-count">1.2K</div></div>
+            <div class="phone-side-item"><div class="phone-side-icon">↗️</div><div class="phone-side-count">9K</div></div>
+          </div>
+          <div class="phone-bottom">
+            <div class="phone-user">@miloreims</div>
+            <div class="phone-caption">Comment trouver un emploi rapidement ? Ma méthode en 3 étapes 🎯 #emploi #recrutement #conseil</div>
+            <div class="phone-progress"><div class="phone-progress-fill"></div></div>
+          </div>
+        </a>
+        <div class="badge-right"><strong>3M+</strong><span>vues</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTEXTE ══ -->
+  <section class="s-contexte">
+    <div class="contexte-body reveal">
+      <p class="section-label">Contexte</p>
+      <h2 class="section-h2" style="margin-bottom:1.8rem;">Un pari sur le contenu organique</h2>
+      <p>À une époque où la publicité payante domine les stratégies digitales, j'ai fait le choix inverse : construire une présence sur TikTok uniquement par la qualité du contenu, sans investir un seul euro en promotion.</p>
+      <p>L'objectif était double : démontrer qu'une stratégie de contenu bien pensée peut rivaliser avec des budgets publicitaires importants, et créer une ressource pédagogique réelle sur le marketing et l'insertion professionnelle.</p>
+      <p>Le résultat a dépassé toutes les attentes : plusieurs vidéos virales, plus de 3 millions de vues cumulées, et une communauté engagée autour des thématiques emploi et communication.</p>
+    </div>
+    <div class="aside-table reveal" style="transition-delay:0.1s;">
+      <div class="aside-row"><span class="aside-key">Plateforme</span><span class="aside-val">TikTok</span></div>
+      <div class="aside-row"><span class="aside-key">Période</span><span class="aside-val">2022 – 2023</span></div>
+      <div class="aside-row"><span class="aside-key">Budget</span><span class="aside-val">0 € — 100 % organique</span></div>
+      <div class="aside-row"><span class="aside-key">Thématiques</span><span class="aside-val">Emploi, recrutement, marketing</span></div>
+      <div class="aside-row"><span class="aside-key">Format</span><span class="aside-val">Vidéos courtes 15–60 s</span></div>
+      <div class="aside-row"><span class="aside-key">Résultat clé</span><span class="aside-val">3 000 000 + vues cumulées</span></div>
+    </div>
+  </section>
+
+  <!-- ══ RÉSULTATS ══ -->
+  <section class="s-resultats">
+    <div class="reveal">
+      <p class="section-label">Résultats</p>
+      <h2 class="section-h2">Des chiffres qui parlent d'eux-mêmes</h2>
+    </div>
+    <div class="resultats-grid">
+      <div class="res-card reveal">
+        <div class="res-num">3M+</div>
+        <div class="res-lbl">Vues totales</div>
+        <div class="res-desc">Cumulées sur l'ensemble des vidéos publiées sur le compte.</div>
+      </div>
+      <div class="res-card reveal" style="transition-delay:0.05s">
+        <div class="res-num">50K</div>
+        <div class="res-lbl">J'aime — meilleure vidéo</div>
+        <div class="res-desc">Pic d'engagement sur une vidéo traitant des techniques d'entretien d'embauche.</div>
+      </div>
+      <div class="res-card reveal" style="transition-delay:0.1s">
+        <div class="res-num">9K</div>
+        <div class="res-lbl">Partages</div>
+        <div class="res-desc">Preuve d'un contenu à forte valeur perçue, partagé spontanément par la communauté.</div>
+      </div>
+      <div class="res-card reveal" style="transition-delay:0.15s">
+        <div class="res-num">0 €</div>
+        <div class="res-lbl">Budget investi</div>
+        <div class="res-desc">Aucune promotion payante. Uniquement la force du contenu et de l'algorithme.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALERIE ══ -->
+  <section class="s-galerie">
+    <div class="reveal">
+      <p class="section-label">Galerie</p>
+      <h2 class="section-h2">Aperçu des contenus</h2>
+    </div>
+    <div class="galerie-grid reveal" style="transition-delay:0.1s">
+      <div class="g-item tall">
+        <img src="assets/img/portfolio/Tiktok/1666365365157.jfif" alt="TikTok"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="g-placeholder" style="display:none;height:100%;"><span>Vidéo TikTok</span></div>
+        <div class="g-overlay"><span class="g-caption">Vidéo virale — 1,7M de vues</span></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/img/portfolio/Tiktok/Capture d’écran 2026-04-29 094913.png" alt="Tiktok"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="g-placeholder" style="display:none;"><span>Vidéo TikTok</span></div>
+        <div class="g-overlay"><span class="g-caption">Vidéo virale — 436K de vues</span></div>
+      </div>
+      <div class="g-item">
+        <img src="assets/img/portfolio/Tiktok/Capture d’écran 2026-04-29 095009.png" alt="Tiktok"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="g-placeholder" style="display:none;"><span>Vidéo TikTok</span></div>
+        <div class="g-overlay"><span class="g-caption">Vidéo virale — 386K de vues</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ MÉTHODE ══ -->
+  <section class="s-methode">
+    <div class="methode-inner">
+      <div class="methode-intro reveal">
+        <p class="section-label" style="color:var(--gold)">Méthode</p>
+        <h2>La stratégie derrière les chiffres</h2>
+        <p>Une approche structurée, testée et itérée semaine après semaine pour comprendre ce qui résonne vraiment avec l'audience.</p>
+      </div>
+      <div class="steps reveal" style="transition-delay:0.1s">
+        <div class="step">
+          <div class="step-n">01</div>
+          <div><div class="step-title">Définir une niche claire</div><div class="step-desc">Se spécialiser sur l'emploi et le marketing plutôt que de tout couvrir. Une niche précise attire une audience qualifiée et fidèle.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <div><div class="step-title">Comprendre l'algorithme</div><div class="step-desc">Analyser les métriques de rétention, les taux de complétion et les heures de publication pour optimiser la diffusion organique.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <div><div class="step-title">Créer des hooks puissants</div><div class="step-desc">Les 3 premières secondes déterminent tout. Chaque vidéo commence par une accroche forte qui oblige à regarder la suite.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-n">04</div>
+          <div><div class="step-title">Publier avec régularité</div><div class="step-desc">Une cadence de publication consistante pour signaler à l'algorithme que le compte est actif et fiable.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-n">05</div>
+          <div><div class="step-title">Analyser & ajuster</div><div class="step-desc">Chaque semaine, analyser les performances pour doubler ce qui fonctionne et abandonner ce qui ne génère pas d'engagement.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LEÇONS ══ -->
+  <section class="s-lecons">
+    <div class="reveal">
+      <p class="section-label">Ce que j'enseigne</p>
+      <h2 class="section-h2">Les leçons que j'en tire pour mes formations</h2>
+    </div>
+    <div class="lecons-grid">
+      <div class="lecon reveal">
+        <span class="lecon-icon">🎯</span>
+        <div class="lecon-title">La niche avant tout</div>
+        <div class="lecon-text">Un compte généraliste ne viralise pas. Choisir un sujet précis et s'y tenir crée une autorité perçue qui déclenche la confiance de l'algorithme et de l'audience.</div>
+      </div>
+      <div class="lecon reveal" style="transition-delay:0.05s">
+        <span class="lecon-icon">📊</span>
+        <div class="lecon-title">Les données ne mentent pas</div>
+        <div class="lecon-text">Chaque décision créative doit être validée par les chiffres. La rétention à 3 s, à 50 % et en fin de vidéo sont les indicateurs clés à surveiller absolument.</div>
+      </div>
+      <div class="lecon reveal" style="transition-delay:0.1s">
+        <span class="lecon-icon">💡</span>
+        <div class="lecon-title">La valeur perçue prime</div>
+        <div class="lecon-text">Un contenu qui apporte une vraie réponse à un vrai problème sera toujours partagé, qu'il soit filmé avec un iPhone ou une caméra professionnelle.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="s-cta">
+    <div class="reveal">
+      <h2>Vous avez un projet <em>similaire</em> ?</h2>
+      <p>Que vous souhaitiez développer votre présence sur les réseaux ou former vos équipes aux stratégies digitales, je peux vous accompagner.</p>
+      <div class="cta-btns">
+        <a href="index.html#contact" class="btn-gold">Me contacter</a>
+        <a href="index.html#Projets" class="btn-outline">Voir les autres projets</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Quentin Léa</div>
+    <p class="footer-copy">© 2026 Quentin Léa — Formateur en Marketing & Communication</p>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    function toggleDrawer() {
+      const d = document.getElementById('nav-drawer'), o = document.getElementById('nav-overlay'), b = document.getElementById('nav-burger');
+      const open = d.classList.toggle('open');
+      o.classList.toggle('open', open); b.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      ['nav-drawer','nav-overlay','nav-burger'].forEach(id => document.getElementById(id).classList.remove('open'));
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

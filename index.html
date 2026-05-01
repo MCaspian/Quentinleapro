@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quentin Léa — Formateur en Marketing & Communication</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F8F5F0;
+      --ivory: #FAF8F4;
+      --dark: #1A1614;
+      --brown: #2a1f16;
+      --gold: #d4a373;
+      --gold-light: #EDD9B8;
+      --text: #2C2420;
+      --muted: #7A6E68;
+      --border: #E2D8CF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--ivory);
+      color: var(--text);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(250, 248, 244, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.9rem; font-weight: 700; letter-spacing: 0.01em;
+      color: var(--brown); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--brown); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-links a.nav-active { color: var(--brown); }
+    .nav-links a.nav-active::after { transform: scaleX(1); }
+    .nav-cta {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ivory) !important;
+      background: var(--brown); padding: 0.65rem 1.5rem;
+      text-decoration: none; transition: background 0.25s;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+    .nav-cta.nav-active { background: var(--gold) !important; color: var(--brown) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* ─── HAMBURGER ─── */
+    .nav-burger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none;
+      padding: 4px; z-index: 200;
+    }
+    .nav-burger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--brown); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE DRAWER ─── */
+    .nav-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 280px; z-index: 150;
+      background: var(--ivory);
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; flex-direction: column;
+      padding: 6rem 2rem 3rem;
+      gap: 0;
+    }
+    .nav-drawer.open { transform: translateX(0); }
+    .nav-drawer a {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      padding: 1.1rem 0; border-bottom: 1px solid var(--border);
+      transition: color 0.2s, padding-left 0.2s;
+      display: block;
+    }
+    .nav-drawer a:hover { color: var(--brown); padding-left: 0.5rem; }
+    .nav-drawer a.nav-active { color: var(--brown); }
+    .nav-drawer .drawer-cta {
+      margin-top: 2rem;
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ivory) !important;
+      background: var(--brown); padding: 1rem 1.5rem;
+      text-align: center; border: none; border-bottom: none;
+    }
+    .nav-drawer .drawer-cta:hover { background: var(--gold) !important; color: var(--brown) !important; padding-left: 1.5rem; }
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 140;
+      background: rgba(26,22,20,0.4);
+      backdrop-filter: blur(2px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 4rem 4rem;
+      background: var(--cream);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 50%; height: 100%;
+      background: linear-gradient(135deg, var(--ivory) 0%, var(--gold-light) 100%);
+      opacity: 0.4;
+    }
+    .hero-text { position: relative; z-index: 1; padding-right: 4rem; }
+    .hero-eyebrow {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 40px; height: 1px; background: var(--gold);
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--brown); letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      white-space: nowrap;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-desc {
+      font-size: 0.9rem; line-height: 1.85;
+      color: var(--muted); max-width: 440px;
+      margin-bottom: 3rem;
+    }
+    .hero-actions { display: flex; gap: 1.2rem; align-items: center; }
+    .btn-primary {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 1rem 2.5rem; background: var(--brown);
+      color: var(--ivory); transition: background 0.3s, color 0.3s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--brown); }
+    .btn-secondary {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--brown); display: flex; align-items: center; gap: 0.5rem;
+      transition: gap 0.3s;
+    }
+    .btn-secondary:hover { gap: 0.9rem; }
+    .hero-stats {
+      margin-top: 4rem; display: flex; gap: 3rem;
+      padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .hero-stats > div {
+      display: flex; flex-direction: column;
+    }
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem; font-weight: 300; color: var(--brown);
+      line-height: 1.1; letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted);
+      margin-top: 0.35rem; line-height: 1;
+    }
+
+    .hero-image {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-image-frame {
+      width: 420px; height: 520px;
+      position: relative;
+    }
+    .hero-image-frame::before {
+      content: '';
+      position: absolute; inset: -16px -16px 16px 16px;
+      border: 1px solid var(--gold); z-index: 0;
+    }
+    .hero-deco {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--gold-light) 60%, var(--gold) 100%);
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem; overflow: hidden;
+    }
+    .hero-deco::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(212,163,115,0.2);
+    }
+    .hero-deco::after {
+      content: '';
+      position: absolute; bottom: -40px; left: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(42,31,22,0.07);
+    }
+    .hero-deco-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.8rem; font-weight: 700;
+      color: var(--brown); line-height: 1.1; z-index: 1; text-align: center;
+    }
+    .hero-deco-line {
+      width: 60px; height: 1px; background: var(--gold); z-index: 1;
+    }
+    .hero-deco-tag {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--brown); opacity: 0.7; z-index: 1;
+      text-align: center;
+    }
+    .hero-badge {
+      position: absolute; bottom: -1.5rem; left: -2rem; z-index: 2;
+      background: var(--brown); color: var(--gold);
+      padding: 1.2rem 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; font-style: italic;
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--gold);
+    }
+
+    /* ─── ABOUT ─── */
+    #objectif {
+      padding: 8rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8rem; align-items: center;
+    }
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
+      font-weight: 300; color: var(--brown);
+      line-height: 1.2; margin-bottom: 1.8rem;
+    }
+    .about-text p {
+      font-size: 0.88rem; line-height: 1.9;
+      color: var(--muted); margin-bottom: 1.2rem;
+    }
+    .about-list { margin-top: 2rem; list-style: none; }
+    .about-list li {
+      font-size: 0.82rem; padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem;
+      color: var(--text);
+    }
+    .about-list li::before {
+      content: '';
+      display: block; width: 6px; height: 6px;
+      background: var(--gold); flex-shrink: 0;
+      transform: rotate(45deg);
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-card {
+      background: var(--dark);
+      color: var(--ivory);
+      padding: 3rem;
+    }
+    .about-card-label {
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 2rem;
+    }
+    .about-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300; line-height: 1.3;
+      margin-bottom: 1.5rem;
+    }
+    .about-card p {
+      font-size: 0.82rem; line-height: 1.8;
+      color: rgba(250,248,244,0.6);
+    }
+    .about-card-footer {
+      margin-top: 2.5rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(212,163,115,0.3);
+      display: flex; gap: 2rem;
+    }
+    .about-card-stat .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--gold);
+    }
+    .about-card-stat .lbl {
+      font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(250,248,244,0.4);
+    }
+
+    /* ─── PROJETS ─── */
+    #Projets { padding: 8rem 4rem; background: var(--cream); }
+    .projets-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 2rem;
+    }
+    .projets-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
+      font-weight: 300; color: var(--brown);
+    }
+    .filter-tabs {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; cursor: pointer;
+      padding: 0.55rem 1.2rem;
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); transition: all 0.25s;
+    }
+    .filter-btn:hover { border-color: var(--gold); color: var(--brown); }
+    .filter-btn.active { background: var(--brown); border-color: var(--brown); color: var(--ivory); }
+    .projets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .projet-card {
+      aspect-ratio: 4/3;
+      overflow: hidden; position: relative;
+      cursor: pointer; display: block; text-decoration: none;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .projet-card.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; display: none; }
+    .projet-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease, filter 0.4s ease;
+      filter: grayscale(20%);
+    }
+    .projet-card:hover img { transform: scale(1.06); filter: grayscale(0%); }
+    .projet-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,22,20,0.85) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .projet-card:hover .projet-overlay { opacity: 1; }
+    .projet-overlay h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--ivory); font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+    .projet-overlay span {
+      font-size: 0.62rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    /* ─── PARTENAIRES ─── */
+    .partenaires {
+      padding: 3.5rem 0; background: var(--dark);
+      overflow: hidden;
+    }
+    .partenaires-header {
+      text-align: center; margin-bottom: 2.5rem;
+      font-size: 0.8rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 500;
+    }
+    .marquee-wrapper {
+      overflow: hidden;
+      width: 100%;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+    .marquee-wrapper.dragging { cursor: grabbing; }
+    .marquee-track {
+      display: flex;
+      align-items: center;
+      animation: marquee 70s linear infinite;
+      width: max-content;
+    }
+    .marquee-wrapper:hover .marquee-track,
+    .marquee-wrapper.dragging .marquee-track { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee-track a {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: white; border-radius: 6px;
+      padding: 10px 18px; height: 64px; width: 160px;
+      margin: 0 1.5rem;
+      transition: opacity 0.3s, transform 0.3s;
+      opacity: 0.9;
+    }
+    .marquee-track a:hover { opacity: 1; transform: scale(1.05); }
+    .marquee-track img {
+      height: 38px; max-width: 110px; object-fit: contain;
+    }
+    .marquee-text-card {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: white; border-radius: 6px;
+      padding: 10px 18px; height: 64px; min-width: 140px;
+      margin: 0 1.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--brown); letter-spacing: 0.05em;
+      opacity: 0.85; transition: opacity 0.3s, transform 0.3s;
+    }
+    .marquee-text-card:hover { opacity: 1; transform: scale(1.05); }
+
+    /* ─── FAQ ─── */
+    #faq { padding: 8rem 4rem; }
+    .faq-inner {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 6rem;
+    }
+    .faq-intro h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
+      font-weight: 300; color: var(--brown); line-height: 1.2;
+    }
+    .faq-intro p {
+      font-size: 0.85rem; color: var(--muted);
+      line-height: 1.8; margin-top: 1.2rem;
+    }
+    .faq-list { list-style: none; }
+    .faq-item {
+      border-top: 1px solid var(--border); overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      color: var(--text); text-align: left;
+      transition: color 0.25s;
+    }
+    .faq-q:hover { color: var(--brown); }
+    .faq-icon {
+      font-size: 1.2rem; color: var(--gold);
+      transition: transform 0.3s; flex-shrink: 0;
+      font-weight: 300; margin-left: 1rem;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 0.83rem; color: var(--muted);
+      line-height: 1.85; padding: 0 0 1.5rem;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-a { max-height: 400px; }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      padding: 8rem 4rem;
+      background: var(--dark); color: var(--ivory);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8rem;
+    }
+    .contact-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--ivory); margin-bottom: 1.5rem;
+    }
+    .contact-left h2 em { color: var(--gold); font-style: italic; }
+    .contact-left p {
+      font-size: 0.85rem; color: rgba(250,248,244,0.55);
+      line-height: 1.85; max-width: 380px;
+    }
+    .contact-details { margin-top: 3rem; }
+    .contact-row {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 1.2rem 0; border-bottom: 1px solid rgba(212,163,115,0.2);
+    }
+    .contact-row-icon {
+      width: 34px; height: 34px; border: 1px solid rgba(212,163,115,0.4);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 0.9rem;
+    }
+    .contact-row-info .lbl {
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.25rem;
+    }
+    .contact-row-info .val {
+      font-size: 0.85rem; color: rgba(250,248,244,0.8);
+    }
+    .contact-row-info a {
+      color: rgba(250,248,244,0.8); text-decoration: none;
+      transition: color 0.25s;
+    }
+    .contact-row-info a:hover { color: var(--gold); }
+    .contact-right {
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label {
+      display: block; font-size: 0.62rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%; background: rgba(250,248,244,0.05);
+      border: 1px solid rgba(212,163,115,0.25);
+      color: var(--ivory); font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; font-weight: 300;
+      padding: 0.9rem 1.1rem; outline: none;
+      transition: border-color 0.25s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      background: var(--gold); color: var(--dark);
+      border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 1rem 2.5rem; width: 100%;
+      transition: background 0.25s, color 0.25s;
+    }
+    .form-submit:hover { background: var(--ivory); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #100D0B;
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(212,163,115,0.15);
+    }
+    .footer-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; color: var(--gold); letter-spacing: 0.05em;
+    }
+    .footer-copy {
+      font-size: 0.68rem; color: rgba(250,248,244,0.3);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; min-height: auto; gap: 3rem; }
+      .hero h1 { white-space: normal; }
+      .hero-text { padding-right: 0; }
+      .hero-image-frame { width: 100%; height: 340px; }
+      #objectif { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+      #Projets { padding: 5rem 1.5rem; }
+      .projets-grid { grid-template-columns: 1fr 1fr; }
+      .faq-inner { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
+      #faq { padding: 0; }
+      #contact { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+      .partenaires { padding: 3rem 0; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      #cours { padding: 5rem 1.5rem !important; }
+      #cours-cards-grid { grid-template-columns: 1fr !important; }
+    }
+    /* ─── COURS HEADER ─── */
+    .cours-header-wrap {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .cours-header-left { text-align: left; }
+    .cours-header-link {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: color 0.25s, border-color 0.25s; white-space: nowrap;
+    }
+    .cours-header-link:hover { color: var(--brown); border-color: var(--gold); }
+
+    /* ─── COURS ─── */
+    .cours-card {
+      background: var(--cream); border: 1px solid var(--border);
+      padding: 2rem; cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .cours-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--gold);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+    .cours-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(212,163,115,0.15); }
+    .cours-card:hover::before { transform: scaleY(1); }
+    .cours-card-cat {
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .cours-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 400; color: var(--brown);
+      margin-bottom: 0.6rem; line-height: 1.25;
+    }
+    .cours-card p {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+    }
+    .cours-card-arrow {
+      margin-top: 1.2rem; font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); display: flex; align-items: center; gap: 0.4rem;
+      transition: gap 0.25s;
+    }
+    .cours-card:hover .cours-card-arrow { gap: 0.8rem; }
+
+    .cours-detail-box {
+      background: var(--dark); color: var(--ivory);
+      padding: 3rem; position: relative;
+    }
+    .cours-detail-back {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+      cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 2rem; background: none; border: none;
+      font-family: 'Montserrat', sans-serif;
+      transition: gap 0.25s;
+    }
+    .cours-detail-back:hover { gap: 0.9rem; }
+    .cours-detail-cat {
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .cours-detail-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 300; margin-bottom: 1.5rem;
+      line-height: 1.15;
+    }
+    .cours-detail-desc {
+      font-size: 0.88rem; color: rgba(248,250,252,0.65);
+      line-height: 1.85; max-width: 640px; margin-bottom: 2.5rem;
+    }
+    .cours-modules-label {
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+    }
+    .cours-modules {
+      list-style: none; display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.8rem;
+    }
+    .cours-modules li {
+      font-size: 0.82rem; padding: 0.9rem 1.1rem;
+      border: 1px solid rgba(212,163,115,0.3);
+      color: rgba(250,248,244,0.8);
+      display: flex; align-items: flex-start; gap: 0.8rem;
+    }
+    .cours-modules li::before {
+      content: ''; display: block; width: 6px; height: 6px;
+      background: var(--gold); flex-shrink: 0;
+      margin-top: 0.35rem; transform: rotate(45deg);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV OVERLAY -->
+  <div class="nav-overlay" id="nav-overlay" onclick="closeDrawer()"></div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="nav-drawer" id="nav-drawer">
+    <a href="#hero" onclick="closeDrawer()">Accueil</a>
+    <a href="#objectif" onclick="closeDrawer()">À propos</a>
+    <a href="#Projets" onclick="closeDrawer()">Projets</a>
+    <a href="#cours" onclick="closeDrawer()">Les cours</a>
+    <a href="#faq" onclick="closeDrawer()">F.A.Q</a>
+    <a href="cv.pdf" target="_blank" onclick="closeDrawer()">CV</a>
+    <a href="#contact" class="drawer-cta" onclick="closeDrawer()">Contact</a>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Quentin Léa</a>
+    <ul class="nav-links">
+      <li><a href="#hero">Accueil</a></li>
+      <li><a href="#objectif">À propos</a></li>
+      <li><a href="#Projets">Projets</a></li>
+      <li><a href="#cours">Les cours</a></li>
+      <li><a href="#faq">F.A.Q</a></li>
+      <li><a href="cv.pdf" target="_blank">CV</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-burger" id="nav-burger" onclick="toggleDrawer()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow reveal">Formateur certifié</p>
+      <h1 class="reveal" style="transition-delay:0.1s">Quentin <em>Léa</em></h1>
+      <p class="hero-desc reveal" style="transition-delay:0.2s">
+        Formateur passionné en marketing, communication et insertion professionnelle. 
+        Diplômé d'un Master Bac+5, j'allie pédagogie et créativité pour transmettre des compétences concrètes et durables.
+      </p>
+      <div class="hero-actions reveal" style="transition-delay:0.3s">
+        <a href="#Projets" class="btn-primary"><span>Voir les projets</span></a>
+        <a href="#contact" class="btn-secondary">Me contacter →</a>
+      </div>
+      <div class="hero-stats reveal" style="transition-delay:0.4s">
+        <div>
+          <div class="stat-num">3M+</div>
+          <div class="stat-label">Vues TikTok</div>
+        </div>
+        <div>
+          <div class="stat-num">Bac+5</div>
+          <div class="stat-label">Master Marketing</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Engagement</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image reveal" style="transition-delay:0.25s">
+      <div class="hero-image-frame">
+        <div class="hero-deco">
+          <div class="hero-deco-name">Quentin Léa</div>
+          <div class="hero-deco-line"></div>
+          <div class="hero-deco-tag">Marketing · Communication<br>Formation · Pédagogie</div>
+        </div>
+        <div class="hero-badge">Master Bac+5 · Reims</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À PROPOS -->
+  <section id="objectif">
+    <div class="about-text reveal">
+      <p class="section-label">À propos</p>
+      <h2>Pédagogie, créativité & expertise terrain</h2>
+      <p>
+        Mon approche repose sur une conviction simple : la formation doit être utile, concrète et engageante. 
+        Avec un parcours alliant master marketing, médiation numérique et certification formateur, 
+        j'accompagne aussi bien des entreprises que des particuliers vers leurs objectifs.
+      </p>
+      <p>
+        Ma méthode ? Des formations ancrées dans le réel, des outils actuels, et une attention sincère portée à chaque apprenant.
+      </p>
+      <ul class="about-list">
+        <li>Marketing & communication digitale</li>
+        <li>Recherche d'emploi & insertion professionnelle</li>
+        <li>Savoir-être & posture professionnelle</li>
+        <li>Esprit critique & utilisation de l'IA</li>
+        <li>Animation de groupes & prise de parole</li>
+      </ul>
+    </div>
+    <div class="about-visual reveal" style="transition-delay:0.15s">
+      <div class="about-card">
+        <div class="about-card-label">Mon objectif</div>
+        <h3>Apporter des solutions sur-mesure à vos besoins</h3>
+        <p>
+          Mon expertise dans les relations humaines et ma capacité à créer des dynamiques positives 
+          me permettent d'accompagner efficacement votre entreprise ou organisation. 
+          Ensemble, nous atteindrons vos objectifs avec professionnalisme.
+        </p>
+        <div class="about-card-footer">
+          <div class="about-card-stat">
+            <div class="num">9+</div>
+            <div class="lbl">Structures partenaires</div>
+          </div>
+          <div class="about-card-stat">
+            <div class="num">3</div>
+            <div class="lbl">Certifications</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETS -->
+  <section id="Projets">
+    <div class="projets-header reveal">
+      <div>
+        <p class="section-label">Portfolio</p>
+        <h2>Projets & réalisations</h2>
+      </div>
+    </div>
+    <div class="filter-tabs reveal">
+      <button class="filter-btn active" onclick="filterProjects('tous', this)">Tous</button>
+      <button class="filter-btn" onclick="filterProjects('formation', this)">Formations</button>
+      <button class="filter-btn" onclick="filterProjects('projets', this)">Projets</button>
+      <button class="filter-btn" onclick="filterProjects('communication', this)">Communication</button>
+    </div>
+    <div class="projets-grid">
+      <a class="projet-card" data-cat="communication" href="projet-forums.html">
+        <img src="assets/img/portfolio/Furom 1/portfolio-1.png" alt="Forums" />
+        <div class="projet-overlay"><h4>Divers forums</h4><span>Communication</span></div>
+      </a>
+      <a class="projet-card" data-cat="communication" href="projet-40ans.html">
+        <img src="assets/img/portfolio/40 ans/Photo maire.jpg" alt="Maire de Reims" />
+        <div class="projet-overlay"><h4>40 ans de la Mission Locale</h4><span>Communication</span></div>
+      </a>
+      <a class="projet-card" data-cat="formation" href="projet-formations.html">
+        <img src="assets/img/portfolio/Cours/1770825790841.jfif" alt="Cours emploi" />
+        <div class="projet-overlay"><h4>Formateur référent</h4><span>Formation</span></div>
+      </a>
+      <a class="projet-card" data-cat="projets" href="projet-jeu-vr.html">
+        <img src="assets/img/portfolio/Mission Locale le jeux/0264a464764343b21ec41dbeb563addd.png" alt="VR" />
+        <div class="projet-overlay"><h4>Jeux vidéo en VR</h4><span>Projets · Budget 0€</span></div>
+      </a>
+      <a class="projet-card" data-cat="projets" href="projet-escape-game.html">
+        <img src="assets/img/portfolio/Escape game/255546593_3168857496727634_6786664919713964549_n.jpg" alt="Escape game" />
+        <div class="projet-overlay"><h4>Escape Game</h4><span>Projets</span></div>
+      </a>
+      <a class="projet-card" data-cat="projets" href="projet-vr.html">
+        <img src="assets/img/portfolio/Groupe de travail/Dollhouse-visite-virtuelle-la-teste-1024x576.jpg" alt="Groupe" />
+        <div class="projet-overlay"><h4>Réalité Virtuelle</h4><span>Projets</span></div>
+      </a>
+      <a class="projet-card" data-cat="communication" href="projet-pub.html">
+        <img src="assets/img/portfolio/Pub/IMG_20220914_150218.jpg" alt="Pub" />
+        <div class="projet-overlay"><h4>Publicité TV & Réseaux</h4><span>Communication</span></div>
+      </a>
+      <a class="projet-card" data-cat="projets" href="projet-portes-ouvertes.html">
+        <img src="assets/img/portfolio/Journé porte ouverte/1668696528344.jfif" alt="Porte ouverte" />
+        <div class="projet-overlay"><h4>Journée porte ouverte</h4><span>Projets</span></div>
+      </a>
+      <a class="projet-card" data-cat="formation" href="projet-recrutement.html">
+        <img src="assets/img/portfolio/Recutement/entretien.png" alt="Recrutement" />
+        <div class="projet-overlay"><h4>Recrutement & Gestion</h4><span>Formation</span></div>
+      </a>
+      <a class="projet-card" data-cat="communication" href="projet-tiktok.html">
+        <img src="assets/img/portfolio/Tiktok/1666365365157.jfif" alt="TikTok" />
+        <div class="projet-overlay"><h4>TikTok — 3 millions de vues</h4><span>Communication</span></div>
+      </a>
+      <a class="projet-card" data-cat="projets" href="projet-twitter.html">
+        <img src="assets/img/portfolio/Milo helper/helper.png" alt="Twitter" />
+        <div class="projet-overlay"><h4>Projet Twitter</h4><span>Projets</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- PARTENAIRES -->
+  <div class="partenaires">
+    <p class="partenaires-header">Ils me font confiance</p>
+    <div class="marquee-wrapper" id="marquee-wrapper">
+      <div class="marquee-track" id="marquee-track">
+        <a href="https://www.francetravail.fr/accueil/" target="_blank"><img src="assets/img/France travail.png" alt="France Travail" /></a>
+        <a href="https://mission-locale-reims.fr/" target="_blank"><img src="assets/img/MLREIMS.png" alt="Mission Locale" /></a>
+        <a href="https://www.efra.fr" target="_blank"><img src="assets/img/efra.png" alt="EFRA" /></a>
+        <a href="https://ecole-ecs.com/campus/reims?_gl=1%2Afa5l9e%2A_gcl_au%2ANTU2OTc5Mzg2LjE3NzA4NDIzNjU.%2AFPAU%2ANTU2OTc5Mzg2LjE3NzA4NDIzNjU.%2A_ga%2AMTA1NDIyMTQwOC4xNzcwODQyMzY1%2A_ga_5WFHTPX5HZ%2AczE3NzczNjY4NTUkbzIkZzEkdDE3NzczNjY4NzAkajQ1JGwwJGgxMjczMjkzOTQ5%2A_fplc%2AaFolMkZ0enFxaUlUQkcwNCUyRkZoc3hBM3ZkeXZucXE4NG9pelZaRkM4cVVqTkJta0xLbDlrbGk1OFpXSUFNOXRHR0Z4d2NYN0Z1dSUyQnpDVlVQJTJCbnYxU1BMenh6TzNTczRlbEFiSHZka3p3SElVeUFSJTJGVGxBMyUyRmNBRlVMVlI3RXJRJTNEJTNE" target="_blank"><img src="assets/img/logo-mediaschool_yen3nk.jfif" alt="Médiascool" /></a>
+        <a href="https://www.ecm-france.fr/campus/ecole-de-commerce-reims/" target="_blank"><img src="assets/img/ecm.png" alt="ECM" /></a>
+        <a href="https://www.egee.asso.fr/nos-regions/region-grand-est/" target="_blank"><img src="assets/img/ASSOCIATION-EGEE-removebg-preview.png" alt="EGEE" /></a>
+        <a href="https://openclassrooms.com/fr/" target="_blank"><img src="assets/img/logo-openclassrooms-plateforme-de-formation-768x384.webp" alt="OpenClassrooms" /></a>
+        <a href="https://www.safti.fr/" target="_blank"><img src="assets/img/logo-safti.png" alt="SAFTI" /></a>
+        <a href="https://www.capifrance.fr/fr" target="_blank"><img src="assets/img/capi-france.svg" alt="CapiFrance" /></a>
+
+        <!-- duplicate for seamless loop -->
+        <a href="https://www.francetravail.fr/accueil/" target="_blank"><img src="assets/img/France travail.png" alt="France Travail" /></a>
+        <a href="https://mission-locale-reims.fr/" target="_blank"><img src="assets/img/MLREIMS.png" alt="Mission Locale" /></a>
+        <a href="https://www.efra.fr" target="_blank"><img src="assets/img/efra.png" alt="EFRA" /></a>
+        <a href="https://ecole-ecs.com/campus/reims?_gl=1%2Afa5l9e%2A_gcl_au%2ANTU2OTc5Mzg2LjE3NzA4NDIzNjU.%2AFPAU%2ANTU2OTc5Mzg2LjE3NzA4NDIzNjU.%2A_ga%2AMTA1NDIyMTQwOC4xNzcwODQyMzY1%2A_ga_5WFHTPX5HZ%2AczE3NzczNjY4NTUkbzIkZzEkdDE3NzczNjY4NzAkajQ1JGwwJGgxMjczMjkzOTQ5%2A_fplc%2AaFolMkZ0enFxaUlUQkcwNCUyRkZoc3hBM3ZkeXZucXE4NG9pelZaRkM4cVVqTkJta0xLbDlrbGk1OFpXSUFNOXRHR0Z4d2NYN0Z1dSUyQnpDVlVQJTJCbnYxU1BMenh6TzNTczRlbEFiSHZka3p3SElVeUFSJTJGVGxBMyUyRmNBRlVMVlI3RXJRJTNEJTNE" target="_blank"><img src="assets/img/logo-mediaschool_yen3nk.jfif" alt="Médiascool" /></a>
+        <a href="https://www.ecm-france.fr/campus/ecole-de-commerce-reims/" target="_blank"><img src="assets/img/ecm.png" alt="ECM" /></a>
+        <a href="https://www.egee.asso.fr/nos-regions/region-grand-est/" target="_blank"><img src="assets/img/ASSOCIATION-EGEE-removebg-preview.png" alt="EGEE" /></a>
+        <a href="https://openclassrooms.com/fr/" target="_blank"><img src="assets/img/logo-openclassrooms-plateforme-de-formation-768x384.webp" alt="OpenClassrooms" /></a>
+        <a href="https://www.safti.fr/" target="_blank"><img src="assets/img/logo-safti.png" alt="SAFTI" /></a>
+        <a href="https://www.capifrance.fr/fr" target="_blank"><img src="assets/img/capi-france.svg" alt="CapiFrance" /></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- COURS APERÇU -->
+  <section id="cours" style="padding:8rem 4rem; background:var(--ivory);">
+    <div class="reveal" style="margin-bottom:3rem;">
+      <p class="section-label">Catalogue</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,3.5vw,3rem);font-weight:300;color:var(--brown);margin:0;">Les cours</h2>
+        <a href="cours.html" class="cours-header-link">Voir tous les cours →</a>
+      </div>
+    </div>
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;transition-delay:0.1s;" id="cours-cards-grid">
+      <div class="cours-card" onclick="window.location='cours.html'">
+        <div class="cours-card-cat">Marketing</div>
+        <h3>Marketing Digital & Stratégie de Marque</h3>
+        <p>Maîtriser les fondamentaux du marketing digital pour construire et promouvoir une image de marque cohérente.</p>
+        <div class="cours-card-arrow">Voir le programme →</div>
+      </div>
+      <div class="cours-card" onclick="window.location='cours.html'">
+        <div class="cours-card-cat">Insertion Professionnelle</div>
+        <h3>Recherche d'Emploi & Techniques de Recrutement</h3>
+        <p>Acquérir les outils et méthodes pour réussir sa recherche d'emploi, du CV à l'entretien final.</p>
+        <div class="cours-card-arrow">Voir le programme →</div>
+      </div>
+      <div class="cours-card" onclick="window.location='cours.html'">
+        <div class="cours-card-cat">Réseaux Sociaux</div>
+        <h3>Créer & Développer sa Présence sur les Réseaux</h3>
+        <p>Apprendre à produire du contenu engageant et développer une audience qualifiée sur TikTok, Instagram et LinkedIn.</p>
+        <div class="cours-card-arrow">Voir le programme →</div>
+      </div>
+    </div>
+    <div class="reveal" style="text-align:center;margin-top:3rem;transition-delay:0.2s;">
+      <a href="cours.html" class="btn-primary">Voir tous les cours</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="faq-inner">
+      <div class="faq-intro reveal">
+        <p class="section-label">Questions</p>
+        <h2>Questions fréquentes</h2>
+        <p>Toutes les réponses aux questions les plus courantes sur mon activité, ma méthode et mes disponibilités.</p>
+      </div>
+      <ul class="faq-list reveal" style="transition-delay:0.1s">
+        <li class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Qu'est-ce qui vous distingue en tant que formateur ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Je combine professionnalisme, enthousiasme et une réelle passion pour la transmission. Mon parcours diversifié me permet de m'adapter facilement à différents profils d'apprenants. J'accorde une attention particulière à la dimension humaine, avec une approche bienveillante, rigoureuse et créative.</div>
+        </li>
+        <li class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Quelles compétences mettez-vous en avant ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Communication et écoute active, adaptation pédagogique, expertise en marketing et insertion professionnelle, valorisation du savoir-être, et gestion rigoureuse de projets. Chaque formation est construite autour de cas pratiques et de mises en situation réelles.</div>
+        </li>
+        <li class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Travaillez-vous aussi à distance ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Je travaille principalement en présentiel pour un échange plus direct avec les apprenants. Toutefois, je suis également disponible pour des formations à distance si nécessaire.</div>
+        </li>
+        <li class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Acceptez-vous des missions ponctuelles ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Oui, je suis disponible aussi bien pour des missions ponctuelles que pour des collaborations à long terme. N'hésitez pas à me contacter pour discuter de vos besoins spécifiques.</div>
+        </li>
+        <li class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Quels sont vos diplômes et qualifications ?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">Je suis titulaire d'un Master en Marketing et Communication (Bac+5), d'un titre de Médiateur Numérique (Bac+2) avec Yschools, et du titre de Formateur/Enseignant (Bac+4) avec OpenClassrooms.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-left reveal">
+      <p class="section-label" style="color:var(--gold)">Contact</p>
+      <h2>Travaillons <em>ensemble</em></h2>
+      <p>Vous avez un projet de formation, une collaboration à envisager ? Je suis disponible pour en discuter.</p>
+      <div class="contact-details">
+        <div class="contact-row">
+          <div class="contact-row-icon">📍</div>
+          <div class="contact-row-info">
+            <div class="lbl">Ville</div>
+            <div class="val">Reims, France</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">✉️</div>
+          <div class="contact-row-info">
+            <div class="lbl">Email</div>
+            <a class="val" href="mailto:Quentin.leapro@gmail.com">Quentin.leapro@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">💼</div>
+          <div class="contact-row-info">
+            <div class="lbl">LinkedIn</div>
+            <a class="val" href="https://www.linkedin.com/in/quentin-lea51/" target="_blank">Quentin LEA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+   <div class="contact-right reveal" style="transition-delay:0.15s">
+  <form action="https://formspree.io/f/mnjwazdz" method="POST">
+    
+    <div class="form-group">
+      <label>Nom & Prénom</label>
+      <input type="text" name="name" placeholder="Jean Dupont" required />
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="jean@exemple.fr" required />
+    </div>
+
+    <div class="form-group">
+      <label>Message</label>
+      <textarea name="message" placeholder="Décrivez votre projet ou vos besoins..." required></textarea>
+    </div>
+
+    <!-- optionnel mais pro -->
+    <input type="hidden" name="_subject" value="Nouveau message depuis ton site" />
+    
+    <button type="submit" class="form-submit">Envoyer le message</button>
+  </form>
+</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Q. Léa</div>
+    <p class="footer-copy">© 2026 Quentin Léa — Formateur en Marketing & Communication</p>
+  </footer>
+
+  <script>
+    // ── Reveal on scroll ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ── Active nav link on scroll ──
+    const sections = ['hero', 'objectif', 'Projets', 'cours', 'faq', 'contact'];
+    const navLinks = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) current = id;
+      });
+      navLinks.forEach(a => {
+        a.classList.remove('nav-active');
+        const href = a.getAttribute('href').replace('#', '');
+        if (href === current) a.classList.add('nav-active');
+      });
+      // Contact CTA highlight
+      const cta = document.querySelector('.nav-cta');
+      if (current === 'contact') cta.classList.add('nav-active');
+      else cta.classList.remove('nav-active');
+    }
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+
+    // ── Hamburger drawer ──
+    function toggleDrawer() {
+      const drawer = document.getElementById('nav-drawer');
+      const overlay = document.getElementById('nav-overlay');
+      const burger = document.getElementById('nav-burger');
+      const open = drawer.classList.toggle('open');
+      overlay.classList.toggle('open', open);
+      burger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      document.getElementById('nav-drawer').classList.remove('open');
+      document.getElementById('nav-overlay').classList.remove('open');
+      document.getElementById('nav-burger').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── Marquee: fill full width + touch/mouse drag ──
+    (function() {
+      const track = document.getElementById('marquee-track');
+      const wrapper = document.getElementById('marquee-wrapper');
+      if (!track || !wrapper) return;
+
+      // Duplicate items until track is at least 3x viewport width for seamless loop
+      function fillMarquee() {
+        const origItems = [...track.children];
+        const origCount = origItems.length;
+        const origWidth = track.scrollWidth;
+        const needed = Math.ceil((window.innerWidth * 3) / origWidth);
+        for (let i = 0; i < needed; i++) {
+          origItems.forEach(item => track.appendChild(item.cloneNode(true)));
+        }
+        // Set animation so exactly half scrolls
+        const halfWidth = track.scrollWidth / 2;
+        track.style.setProperty('--half', halfWidth + 'px');
+      }
+      fillMarquee();
+
+      // Override keyframe dynamically
+      const styleEl = document.createElement('style');
+      document.head.appendChild(styleEl);
+      function setMarqueeAnim() {
+        const half = track.scrollWidth / 2;
+        styleEl.textContent = `@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-${half}px)} }`;
+      }
+      setTimeout(setMarqueeAnim, 100);
+
+      // Touch/mouse drag on mobile
+      let isDown = false, startX = 0, scrollLeft = 0;
+      let animPaused = false;
+
+      wrapper.addEventListener('mousedown', e => {
+        isDown = true; wrapper.classList.add('dragging');
+        startX = e.pageX; scrollLeft = track._dragOffset || 0;
+      });
+      window.addEventListener('mouseup', () => { isDown = false; wrapper.classList.remove('dragging'); });
+      wrapper.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const dx = e.pageX - startX;
+        track._dragOffset = (scrollLeft + dx);
+        track.style.animationPlayState = 'paused';
+        track.style.transform = `translateX(${track._dragOffset}px)`;
+      });
+
+      // Touch
+      wrapper.addEventListener('touchstart', e => {
+        startX = e.touches[0].pageX;
+        scrollLeft = track._dragOffset || 0;
+        track.style.animationPlayState = 'paused';
+      }, { passive: true });
+      wrapper.addEventListener('touchmove', e => {
+        const dx = e.touches[0].pageX - startX;
+        track._dragOffset = scrollLeft + dx;
+        track.style.transform = `translateX(${track._dragOffset}px)`;
+      }, { passive: true });
+      wrapper.addEventListener('touchend', () => {
+        // resume animation from current position
+        setTimeout(() => {
+          track.style.animationPlayState = '';
+          track.style.transform = '';
+          track._dragOffset = 0;
+        }, 1200);
+      });
+    })();
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // ── Portfolio filter ──
+    function filterProjects(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.projet-card').forEach(card => {
+        if (cat === 'tous' || card.dataset.cat === cat) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

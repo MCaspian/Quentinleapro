@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recrutement & Gestion d'équipes — Quentin Léa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F8F5F0;
+      --ivory: #FAF8F4;
+      --dark: #1A1614;
+      --brown: #2a1f16;
+      --gold: #d4a373;
+      --gold-light: #EDD9B8;
+      --text: #2C2420;
+      --muted: #7A6E68;
+      --border: #E2D8CF;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--ivory); color: var(--text); font-weight: 300; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(250,248,244,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Dancing Script', cursive; font-size: 1.9rem; font-weight: 700; color: var(--brown); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; }
+    .nav-links a:hover { color: var(--brown); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-cta { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ivory) !important; background: var(--brown); padding: 0.65rem 1.5rem; text-decoration: none; transition: background 0.25s; }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .nav-burger span { display: block; width: 24px; height: 2px; background: var(--brown); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-overlay { position: fixed; inset: 0; z-index: 140; background: rgba(26,22,20,0.4); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+    .nav-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 280px; z-index: 150; background: var(--ivory); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; padding: 6rem 2rem 3rem; }
+    .nav-drawer.open { transform: translateX(0); }
+    .nav-drawer a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 1.1rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s, padding-left 0.2s; display: block; }
+    .nav-drawer a:hover { color: var(--brown); padding-left: 0.5rem; }
+    .nav-drawer .drawer-cta { margin-top: 2rem; text-align: center; border: none; background: var(--brown); color: var(--ivory) !important; padding: 1rem 1.5rem; }
+    .nav-drawer .drawer-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--dark);
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem;
+      padding: 9rem 4rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 60%; height: 100%;
+      background: radial-gradient(ellipse at bottom left, rgba(212,163,115,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(212,163,115,0.025) 80px, rgba(212,163,115,0.025) 81px);
+      pointer-events: none;
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+    .breadcrumb { display: flex; align-items: center; gap: 0.6rem; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,248,244,0.3); margin-bottom: 2.5rem; }
+    .breadcrumb a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: rgba(212,163,115,0.4); }
+    .hero-eyebrow { display: flex; align-items: center; gap: 0.8rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.8rem; }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 4.5vw, 4.2rem); font-weight: 300; line-height: 1.08; color: var(--ivory); margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-desc { font-size: 0.9rem; line-height: 1.9; color: rgba(250,248,244,0.5); max-width: 430px; margin-bottom: 2.5rem; }
+    .hero-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .tag { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(212,163,115,0.3); color: rgba(212,163,115,0.75); padding: 0.38rem 0.85rem; }
+    .hero-kpis { display: flex; gap: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(212,163,115,0.2); }
+    .kpi-num { font-family: 'Montserrat', sans-serif; font-size: 1.9rem; font-weight: 300; color: var(--gold); line-height: 1; }
+    .kpi-lbl { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,248,244,0.3); margin-top: 0.3rem; }
+
+    /* ── HERO RIGHT — Visual ── */
+    .hero-right { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; }
+    .hero-visual {
+      width: 100%; max-width: 460px;
+      position: relative;
+    }
+    .hero-img-frame {
+      width: 100%; aspect-ratio: 3/4;
+      position: relative;
+    }
+    .hero-img-frame::before {
+      content: '';
+      position: absolute; inset: -14px 14px 14px -14px;
+      border: 1px solid rgba(212,163,115,0.3); z-index: 0;
+    }
+    .hero-img-frame img {
+      width: 100%; height: 100%; object-fit: cover;
+      position: relative; z-index: 1;
+      filter: grayscale(20%);
+    }
+    .hero-img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #1c1008 0%, #0d0d0d 60%);
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-img-placeholder span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-style: italic; color: rgba(212,163,115,0.4);
+      letter-spacing: 0.1em;
+    }
+    .hero-float-card {
+      position: absolute; bottom: -1.5rem; left: -2rem; z-index: 3;
+      background: var(--gold); color: var(--dark);
+      padding: 1.1rem 1.6rem;
+    }
+    .hero-float-card .fc-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; }
+    .hero-float-card .fc-val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; line-height: 1; margin-top: 0.2rem; }
+
+    /* ── SECTIONS GÉNÉRIQUES ── */
+    .section-label { font-size: 0.63rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+    .section-h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 300; color: var(--brown); line-height: 1.2; }
+
+    /* ── CONTEXTE ── */
+    .s-contexte { padding: 7rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
+    .contexte-body p { font-size: 0.87rem; line-height: 1.95; color: var(--muted); margin-bottom: 1.1rem; }
+    .aside-table { margin-top: 0.5rem; }
+    .aside-row { display: grid; grid-template-columns: 1fr 1.2fr; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    .aside-row:first-child { border-top: 1px solid var(--border); }
+    .aside-key { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; }
+    .aside-val { font-size: 0.82rem; color: var(--text); font-weight: 400; }
+
+    /* ── MISSIONS ── */
+    .s-missions { padding: 7rem 4rem; background: var(--cream); }
+    .missions-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .mission-card {
+      background: var(--ivory); border: 1px solid var(--border);
+      padding: 2.2rem; position: relative; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .mission-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+    .mission-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease; }
+    .mission-card:hover::before { transform: scaleX(1); }
+    .mission-icon { font-size: 1.8rem; margin-bottom: 1.1rem; display: block; }
+    .mission-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--brown); margin-bottom: 0.7rem; }
+    .mission-text { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+
+    /* ── PROCESSUS ── */
+    .s-processus { padding: 7rem 4rem; background: var(--dark); color: var(--ivory); }
+    .processus-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 7rem; }
+    .processus-intro h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3vw,2.8rem); font-weight: 300; line-height: 1.2; margin-top: 0.5rem; }
+    .processus-intro p { font-size: 0.85rem; color: rgba(250,248,244,0.45); line-height: 1.85; margin-top: 1.2rem; }
+    .steps { display: flex; flex-direction: column; }
+    .step { display: grid; grid-template-columns: 44px 1fr; gap: 1.5rem; padding: 1.8rem 0; border-bottom: 1px solid rgba(212,163,115,0.12); align-items: start; }
+    .step:first-child { border-top: 1px solid rgba(212,163,115,0.12); }
+    .step-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: rgba(212,163,115,0.3); line-height: 1; }
+    .step-title { font-size: 0.82rem; font-weight: 500; color: var(--ivory); margin-bottom: 0.45rem; }
+    .step-desc { font-size: 0.78rem; color: rgba(250,248,244,0.4); line-height: 1.7; }
+
+    /* ── GALERIE ── */
+    .s-galerie { padding: 7rem 4rem; }
+    .galerie-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; margin-top: 3rem; }
+    .g-item { overflow: hidden; position: relative; aspect-ratio: 4/3; }
+    .g-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
+    .g-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.4s ease; filter: grayscale(15%); }
+    .g-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
+    .g-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,22,20,0.75) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.2rem; }
+    .g-item:hover .g-overlay { opacity: 1; }
+    .g-caption { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ivory); }
+    .g-placeholder { width: 100%; height: 100%; min-height: 200px; background: linear-gradient(135deg, var(--cream), var(--gold-light)); display: flex; align-items: center; justify-content: center; }
+    .g-placeholder span { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
+
+    /* ── COMPÉTENCES ── */
+    .s-competences { padding: 7rem 4rem; background: var(--cream); }
+    .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 3rem; }
+    .comp-item {
+      background: var(--ivory); padding: 2rem 2.2rem;
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      border: 1px solid var(--border);
+      transition: border-color 0.25s;
+    }
+    .comp-item:hover { border-color: var(--gold); }
+    .comp-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: rgba(212,163,115,0.3); line-height: 1; flex-shrink: 0; }
+    .comp-title { font-size: 0.82rem; font-weight: 500; color: var(--brown); margin-bottom: 0.4rem; }
+    .comp-text { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── CTA ── */
+    .s-cta { padding: 6rem 4rem; background: var(--dark); text-align: center; }
+    .s-cta h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 300; color: var(--ivory); margin-bottom: 1rem; }
+    .s-cta h2 em { font-style: italic; color: var(--gold); }
+    .s-cta p { font-size: 0.87rem; color: rgba(250,248,244,0.4); max-width: 460px; margin: 0 auto 2.5rem; line-height: 1.85; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 1rem 2.5rem; background: var(--gold); color: var(--dark); transition: background 0.25s; }
+    .btn-gold:hover { background: var(--ivory); }
+    .btn-outline { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 1rem 2.5rem; border: 1px solid rgba(212,163,115,0.35); color: rgba(250,248,244,0.65); transition: border-color 0.25s, color 0.25s; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--ivory); }
+
+    /* ── FOOTER ── */
+    footer { background: #100D0B; padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(212,163,115,0.15); }
+    .footer-logo { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--gold); }
+    .footer-copy { font-size: 0.68rem; color: rgba(250,248,244,0.3); letter-spacing: 0.08em; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; min-height: auto; gap: 3rem; }
+      .hero-img-frame { aspect-ratio: 4/3; }
+      .hero-float-card { left: 0; bottom: -1rem; }
+      .s-contexte { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+      .s-missions { padding: 5rem 1.5rem; }
+      .missions-grid { grid-template-columns: 1fr; }
+      .s-processus { padding: 5rem 1.5rem; }
+      .processus-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .s-galerie { padding: 5rem 1.5rem; }
+      .galerie-grid { grid-template-columns: 1fr 1fr; }
+      .g-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
+      .s-competences { padding: 5rem 1.5rem; }
+      .comp-grid { grid-template-columns: 1fr; }
+      .s-cta { padding: 5rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav-overlay" id="nav-overlay" onclick="closeDrawer()"></div>
+  <div class="nav-drawer" id="nav-drawer">
+    <a href="index.html#hero" onclick="closeDrawer()">Accueil</a>
+    <a href="index.html#objectif" onclick="closeDrawer()">À propos</a>
+    <a href="index.html#Projets" onclick="closeDrawer()">Projets</a>
+    <a href="index.html#cours" onclick="closeDrawer()">Les cours</a>
+    <a href="index.html#faq" onclick="closeDrawer()">F.A.Q</a>
+    <a href="cv.pdf" target="_blank" onclick="closeDrawer()">CV</a>
+    <a href="index.html#contact" class="drawer-cta" onclick="closeDrawer()">Contact</a>
+  </div>
+
+  <nav>
+    <a class="nav-logo" href="index.html">Quentin Léa</a>
+    <ul class="nav-links">
+      <li><a href="index.html#hero">Accueil</a></li>
+      <li><a href="index.html#objectif">À propos</a></li>
+      <li><a href="index.html#Projets">Projets</a></li>
+      <li><a href="index.html#cours">Les cours</a></li>
+      <li><a href="index.html#faq">F.A.Q</a></li>
+      <li><a href="cv.pdf" target="_blank">CV</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-burger" id="nav-burger" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a><span>/</span>
+        <a href="index.html#Projets">Projets</a><span>/</span>
+        Recrutement & Gestion
+      </div>
+      <p class="hero-eyebrow">Mission Locale de Reims</p>
+      <h1>Recrutement<br>& <em>Gestion</em><br>d'équipes</h1>
+      <p class="hero-desc">Conduire les entretiens de recrutement, accompagner l'intégration des nouvelles recrues et assurer la gestion des équipes fraîchement constituées au sein de la Mission Locale de Reims.</p>
+      <div class="hero-tags">
+        <span class="tag">Recrutement</span>
+        <span class="tag">Conduite d'entretiens</span>
+        <span class="tag">Gestion d'équipes</span>
+        <span class="tag">Intégration</span>
+        <span class="tag">Mission Locale</span>
+        <span class="tag">Management</span>
+      </div>
+      <div class="hero-kpis">
+        <div><div class="kpi-num">30 +</div><div class="kpi-lbl">Entretiens conduits</div></div>
+        <div><div class="kpi-num">360°</div><div class="kpi-lbl">Suivi intégration</div></div>
+        <div><div class="kpi-num">100%</div><div class="kpi-lbl">Terrain</div></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="hero-img-frame">
+          <img
+            src="assets/img/portfolio/Recutement/entretien.png"
+            alt="Entretien de recrutement"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hero-img-placeholder" style="display:none;">
+            <span>Entretien de recrutement</span>
+          </div>
+        </div>
+        <div class="hero-float-card">
+          <div class="fc-label">Structure</div>
+          <div class="fc-val">Mission Locale<br>de Reims</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTEXTE ══ -->
+  <section class="s-contexte">
+    <div class="contexte-body reveal">
+      <p class="section-label">Contexte</p>
+      <h2 class="section-h2" style="margin-bottom:1.8rem;">Un rôle clé au cœur de la Mission Locale</h2>
+      <p>Dans le cadre de ma mission à la Mission Locale de Reims, j'ai pris en charge l'ensemble du processus de recrutement pour les équipes de l'organisation. De la définition des besoins jusqu'à l'intégration complète des nouvelles recrues, j'ai assuré un suivi rigoureux à chaque étape.</p>
+      <p>Mon rôle ne s'arrêtait pas à la sélection des candidats : j'accompagnais également les équipes nouvellement constituées dans leur montée en compétences, leur cohésion et leur adaptation aux exigences du poste.</p>
+      <p>Cette expérience m'a permis de développer une vision complète du cycle RH — du recrutement à la gestion opérationnelle — tout en affinant mes compétences en communication, écoute active et leadership.</p>
+    </div>
+    <div class="aside-table reveal" style="transition-delay:0.1s;">
+      <div class="aside-row"><span class="aside-key">Structure</span><span class="aside-val">Mission Locale de Reims</span></div>
+      <div class="aside-row"><span class="aside-key">Rôle</span><span class="aside-val">Recrutement & Management</span></div>
+      <div class="aside-row"><span class="aside-key">Missions</span><span class="aside-val">Entretiens, intégration, gestion</span></div>
+      <div class="aside-row"><span class="aside-key">Public</span><span class="aside-val">Jeunes en insertion professionnelle</span></div>
+      <div class="aside-row"><span class="aside-key">Format</span><span class="aside-val">Présentiel — terrain</span></div>
+      <div class="aside-row"><span class="aside-key">Compétence clé</span><span class="aside-val">Gestion humaine & communication</span></div>
+    </div>
+  </section>
+
+  <!-- ══ MISSIONS ══ -->
+  <section class="s-missions">
+    <div class="reveal">
+      <p class="section-label">Mes missions</p>
+      <h2 class="section-h2">Ce que j'ai accompli sur le terrain</h2>
+    </div>
+    <div class="missions-grid">
+      <div class="mission-card reveal">
+        <span class="mission-icon">🎯</span>
+        <div class="mission-title">Conduite d'entretiens</div>
+        <div class="mission-text">Préparation et animation de nombreux entretiens de recrutement. Évaluation des compétences, de la motivation et de l'adéquation des candidats avec les besoins de la structure.</div>
+      </div>
+      <div class="mission-card reveal" style="transition-delay:0.05s">
+        <span class="mission-icon">🤝</span>
+        <div class="mission-title">Intégration des recrues</div>
+        <div class="mission-text">Accompagnement des nouveaux membres depuis leur arrivée jusqu'à leur pleine autonomie. Présentation de l'environnement de travail, des outils et des process internes.</div>
+      </div>
+      <div class="mission-card reveal" style="transition-delay:0.1s">
+        <span class="mission-icon">👥</span>
+        <div class="mission-title">Gestion des équipes</div>
+        <div class="mission-text">Animation et coordination des équipes nouvellement constituées. Mise en place d'une dynamique de groupe positive, gestion des tensions et suivi des objectifs collectifs.</div>
+      </div>
+      <div class="mission-card reveal" style="transition-delay:0.15s">
+        <span class="mission-icon">📋</span>
+        <div class="mission-title">Analyse des besoins</div>
+        <div class="mission-text">Identification en amont des profils recherchés en lien avec les responsables. Définition des critères de sélection adaptés aux missions et aux valeurs de la structure.</div>
+      </div>
+      <div class="mission-card reveal" style="transition-delay:0.2s">
+        <span class="mission-icon">💬</span>
+        <div class="mission-title">Communication interne</div>
+        <div class="mission-text">Facilitation des échanges entre les équipes et la direction. Rôle d'interface pour fluidifier la transmission d'informations et résoudre rapidement les incompréhensions.</div>
+      </div>
+      <div class="mission-card reveal" style="transition-delay:0.25s">
+        <span class="mission-icon">📈</span>
+        <div class="mission-title">Suivi & accompagnement</div>
+        <div class="mission-text">Points réguliers avec les recrues pour s'assurer de leur montée en compétences, identifier les difficultés et ajuster le plan d'accompagnement si nécessaire.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROCESSUS ══ -->
+  <section class="s-processus">
+    <div class="processus-inner">
+      <div class="processus-intro reveal">
+        <p class="section-label" style="color:var(--gold)">Processus</p>
+        <h2>Mon approche du recrutement</h2>
+        <p>Une méthode structurée, humaine et rigoureuse pour identifier les bons profils et les accompagner dans la durée.</p>
+      </div>
+      <div class="steps reveal" style="transition-delay:0.1s">
+        <div class="step">
+          <div class="step-n">01</div>
+          <div>
+            <div class="step-title">Définir le profil recherché</div>
+            <div class="step-desc">Échange approfondi avec les responsables pour cerner précisément les attentes : compétences techniques, savoir-être, disponibilité et ambitions.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <div>
+            <div class="step-title">Présélection des candidats</div>
+            <div class="step-desc">Analyse des candidatures reçues, tri selon les critères définis et contact des profils retenus pour un premier échange téléphonique.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <div>
+            <div class="step-title">Conduite de l'entretien</div>
+            <div class="step-desc">Animation d'entretiens structurés alliant questions comportementales, mises en situation et évaluation de la motivation réelle du candidat.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">04</div>
+          <div>
+            <div class="step-title">Intégration & onboarding</div>
+            <div class="step-desc">Accueil personnalisé, remise des outils, présentation des équipes et suivi des premières semaines pour garantir une intégration réussie.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">05</div>
+          <div>
+            <div class="step-title">Suivi dans la durée</div>
+            <div class="step-desc">Points réguliers pour évaluer la progression, identifier les axes d'amélioration et s'assurer de la cohésion au sein de l'équipe constituée.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ COMPÉTENCES ══ -->
+  <section class="s-competences">
+    <div class="reveal">
+      <p class="section-label">Compétences développées</p>
+      <h2 class="section-h2">Ce que cette expérience m'a apporté</h2>
+    </div>
+    <div class="comp-grid" style="margin-top:3rem;">
+      <div class="comp-item reveal">
+        <div class="comp-num">01</div>
+        <div>
+          <div class="comp-title">Écoute active & bienveillance</div>
+          <div class="comp-text">Mener des entretiens c'est avant tout écouter. J'ai appris à déceler ce que les candidats ne disent pas, à mettre à l'aise et à créer un climat de confiance propice à l'échange sincère.</div>
+        </div>
+      </div>
+      <div class="comp-item reveal" style="transition-delay:0.05s">
+        <div class="comp-num">02</div>
+        <div>
+          <div class="comp-title">Prise de décision rapide</div>
+          <div class="comp-text">Évaluer un candidat en un temps limité exige de la rigueur et du discernement. Cette expérience a fortement développé ma capacité à prendre des décisions éclairées sous contrainte.</div>
+        </div>
+      </div>
+      <div class="comp-item reveal" style="transition-delay:0.1s">
+        <div class="comp-num">03</div>
+        <div>
+          <div class="comp-title">Leadership & cohésion d'équipe</div>
+          <div class="comp-text">Gérer des équipes nouvellement formées demande autant de fermeté que de bienveillance. J'ai développé ma posture de leader en accompagnant des groupes vers une dynamique collective positive.</div>
+        </div>
+      </div>
+      <div class="comp-item reveal" style="transition-delay:0.15s">
+        <div class="comp-num">04</div>
+        <div>
+          <div class="comp-title">Communication & pédagogie</div>
+          <div class="comp-text">Expliquer les process, reformuler les attentes, adapter son discours selon l'interlocuteur — des compétences que j'utilise aujourd'hui directement dans mes formations.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="s-cta">
+    <div class="reveal">
+      <h2>Besoin d'un <em>formateur RH</em> ?</h2>
+      <p>Fort de cette expérience terrain, j'accompagne aujourd'hui des structures et des individus sur les thématiques recrutement, intégration et gestion d'équipes.</p>
+      <div class="cta-btns">
+        <a href="index.html#contact" class="btn-gold">Me contacter</a>
+        <a href="index.html#Projets" class="btn-outline">Voir les autres projets</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Quentin Léa</div>
+    <p class="footer-copy">© 2026 Quentin Léa — Formateur en Marketing & Communication</p>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    function toggleDrawer() {
+      const d = document.getElementById('nav-drawer'), o = document.getElementById('nav-overlay'), b = document.getElementById('nav-burger');
+      const open = d.classList.toggle('open');
+      o.classList.toggle('open', open); b.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      ['nav-drawer','nav-overlay','nav-burger'].forEach(id => document.getElementById(id).classList.remove('open'));
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

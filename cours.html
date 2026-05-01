@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes Cours — Quentin Léa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F8F5F0;
+      --ivory: #FAF8F4;
+      --dark: #1A1614;
+      --brown: #2a1f16;
+      --gold: #d4a373;
+      --gold-light: #EDD9B8;
+      --text: #2C2420;
+      --muted: #7A6E68;
+      --border: #E2D8CF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--ivory);
+      color: var(--text);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(250,248,244,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.9rem; font-weight: 700;
+      color: var(--brown); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      transition: color 0.25s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--brown); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-links a.active { color: var(--brown); }
+    .nav-links a.active::after { transform: scaleX(1); }
+    .nav-cta {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ivory) !important;
+      background: var(--brown); padding: 0.65rem 1.5rem;
+      text-decoration: none; transition: background 0.25s;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--brown) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 10rem 4rem 5rem;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 40%; height: 100%;
+      background: linear-gradient(135deg, transparent 0%, var(--gold-light) 100%);
+      opacity: 0.35;
+    }
+    .page-hero-inner { position: relative; z-index: 1; max-width: 700px; }
+    .page-eyebrow {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .page-eyebrow::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--gold);
+    }
+    .page-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--brown); margin-bottom: 1.2rem;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--gold); }
+    .page-hero p {
+      font-size: 0.95rem; color: var(--muted);
+      line-height: 1.85; max-width: 560px;
+    }
+    .page-hero-stats {
+      display: flex; gap: 3rem; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .page-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; color: var(--brown);
+    }
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem; font-weight: 300; color: var(--brown);
+      line-height: 1.1; letter-spacing: -0.02em;
+    }
+    .page-stat-lbl {
+      font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted); margin-top: 0.2rem;
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      position: sticky; top: 72px; z-index: 50;
+      background: var(--ivory);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 4rem;
+      display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+    }
+    .filter-bar-label {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-right: 0.5rem;
+    }
+    .filter-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.63rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer;
+      padding: 0.45rem 1rem;
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--gold); color: var(--brown); }
+    .filter-btn.active { background: var(--brown); border-color: var(--brown); color: var(--ivory); }
+    
+    .filter-btn.favori-btn {
+      color: var(--gold);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+    .filter-btn.favori-btn:hover, .filter-btn.favori-btn.active {
+      background: var(--gold);
+      color: var(--dark);
+      border-color: var(--gold);
+    }
+
+    /* ── COURS GRID ── */
+    .cours-section { padding: 4rem 4rem 8rem; }
+    .cours-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* ── COURS CARD ── */
+    .cours-card {
+      background: var(--cream); border: 1px solid var(--border);
+      padding: 2.5rem 2rem 2rem; cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .cours-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--gold);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+    .cours-card:hover, .cours-card.active-card {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(212,163,115,0.15);
+    }
+    .cours-card:hover::before, .cours-card.active-card::before { transform: scaleY(1); }
+    .cours-card.hidden { display: none; }
+
+    .cours-card-badge {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--gold); color: var(--dark);
+      font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.3rem 0.6rem;
+      border-radius: 2px; z-index: 10;
+    }
+
+    .cours-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; }
+    .cours-card-cat {
+      font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+    }
+    .cours-card-duration {
+      font-size: 0.62rem; color: var(--muted); letter-spacing: 0.05em;
+    }
+    .cours-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 400; color: var(--brown);
+      margin-bottom: 0.7rem; line-height: 1.3;
+    }
+    .cours-card p {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+    }
+    .cours-card-footer {
+      margin-top: 1.4rem; padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cours-card-level {
+      font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .level-dots { display: flex; gap: 3px; }
+    .level-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border);
+    }
+    .level-dot.filled { background: var(--gold); }
+    .cours-card-arrow {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 0.35rem;
+      transition: gap 0.2s;
+    }
+    .cours-card:hover .cours-card-arrow { gap: 0.65rem; }
+
+    /* ── DETAIL PANEL ── */
+    .detail-panel {
+      display: none;
+      grid-column: 1 / -1;
+      background: var(--dark);
+      color: var(--ivory);
+      padding: 3.5rem;
+      position: relative;
+      animation: slideDown 0.35s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .detail-panel.visible { display: block; }
+
+    .detail-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.4rem; color: rgba(250,248,244,0.4);
+      transition: color 0.2s; line-height: 1;
+    }
+    .detail-close:hover { color: var(--gold); }
+
+    .detail-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .detail-cat {
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .detail-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .detail-desc {
+      font-size: 0.85rem; color: rgba(250,248,244,0.6);
+      line-height: 1.85; margin-bottom: 2rem;
+    }
+    .detail-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .detail-meta-item .lbl {
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.2rem;
+    }
+    .detail-meta-item .val {
+      font-size: 0.82rem; color: rgba(250,248,244,0.75);
+    }
+
+    .detail-modules-label {
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+    }
+    .detail-modules { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .detail-modules li {
+      font-size: 0.82rem; padding: 0.75rem 1rem;
+      border: 1px solid rgba(212,163,115,0.2);
+      color: rgba(250,248,244,0.78);
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .detail-modules li:hover { border-color: rgba(212,163,115,0.5); background: rgba(212,163,115,0.06); }
+    .detail-modules li::before {
+      content: ''; display: block; width: 5px; height: 5px;
+      background: var(--gold); flex-shrink: 0;
+      margin-top: 0.38rem; transform: rotate(45deg);
+    }
+
+    .detail-cta {
+      margin-top: 2rem; display: inline-block;
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.9rem 2rem; background: var(--gold);
+      color: var(--dark); transition: background 0.25s;
+    }
+    .detail-cta:hover { background: var(--ivory); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #100D0B;
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(212,163,115,0.15);
+    }
+    .footer-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; color: var(--gold);
+    }
+    .footer-copy {
+      font-size: 0.68rem; color: rgba(250,248,244,0.3); letter-spacing: 0.08em;
+    }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .page-hero { padding: 8rem 1.5rem 3rem; }
+      .filter-bar { padding: 1rem 1.5rem; top: 64px; }
+      .cours-section { padding: 2.5rem 1.5rem 5rem; }
+      .cours-grid { grid-template-columns: 1fr; }
+      .detail-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">Quentin Léa</a>
+    <ul class="nav-links">
+      <li><a href="index.html#hero">Accueil</a></li>
+      <li><a href="index.html#objectif">À propos</a></li>
+      <li><a href="index.html#Projets">Projets</a></li>
+      <li><a href="cours.html" class="active">Mes Cours</a></li>
+      <li><a href="index.html#faq">F.A.Q</a></li>
+      <li><a href="cv.pdf" target="_blank">CV</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Catalogue de formations</p>
+      <h1>Mes <em>Cours</em></h1>
+      <p>Des formations concrètes et adaptées, conçues pour vous donner des compétences immédiatement applicables — que vous soyez en recherche d'emploi, en activité ou en reconversion.</p>
+      <div class="page-hero-stats">
+        <div>
+          <div class="stat-num">12</div>
+          <div class="page-stat-lbl">Formations disponibles</div>
+        </div>
+        <div>
+          <div class="stat-num">Bac+5</div>
+          <div class="page-stat-lbl">Niveau formateur</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="page-stat-lbl">Orienté pratique</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-bar-label">Filtrer :</span>
+    <button class="filter-btn active" onclick="filterCours('tous', this)">Tous</button>
+    <button class="filter-btn favori-btn" onclick="filterCours('Favoris', this)">⭐ Les plus demandés</button>
+    <button class="filter-btn" onclick="filterCours('Savoir-Être', this)">Savoir-être</button>
+    <button class="filter-btn" onclick="filterCours('Numérique & IA', this)">IA & Numérique</button>
+    <button class="filter-btn" onclick="filterCours('Marketing', this)">Marketing</button>
+    <button class="filter-btn" onclick="filterCours('Communication', this)">Communication</button>
+    <button class="filter-btn" onclick="filterCours('Entrepreneuriat', this)">Entrepreneuriat</button>
+    <button class="filter-btn" onclick="filterCours('Management', this)">Management</button>
+  </div>
+
+  <!-- COURS -->
+  <main class="cours-section">
+    <div class="cours-grid" id="cours-grid">
+
+      <!-- COURS 1 : Savoir-être (Favori) -->
+      <div class="cours-card favori reveal" data-cat="Savoir-Être" onclick="toggleDetail('detail-1', this)">
+        <div class="cours-card-badge">⭐ Favoris</div>
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Savoir-Être</span>
+          <span class="cours-card-duration">6 modules</span>
+        </div>
+        <h3>Savoir-Être Professionnel & Soft Skills</h3>
+        <p>Développez la posture, l'adaptabilité et l'intelligence émotionnelle essentielles pour briller en milieu professionnel.</p>
+       <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 1 -->
+      <div class="detail-panel" id="detail-1">
+        <button class="detail-close" onclick="closeDetail('detail-1')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Savoir-Être</div>
+            <div class="detail-title">Savoir-Être Professionnel & Soft Skills</div>
+            <div class="detail-desc">Formation à la carte : chaque module de ce cours peut être suivi de façon totalement indépendante. Vous y apprendrez à adopter la bonne posture, gérer la pression, résoudre les conflits et optimiser vos priorités.</div>
+
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours (À la carte)</div>
+            <ul class="detail-modules">
+              <li>1. La Posture digitale (e-réputation, communication en ligne)</li>
+              <li>2. Posture professionnelle : bases et enjeux</li>
+              <li>3. Comprendre les profils et s'adapter en milieu professionnel</li>
+              <li>4. La gestion du stress et des émotions en entreprise</li>
+              <li>5. Gestion des conflits et l'art du feedback</li>
+              <li>6. Gestion des priorités et prise de décision professionnelle</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 2 : IA (Favori) -->
+      <div class="cours-card favori reveal" data-cat="Numérique & IA" style="transition-delay:0.05s" onclick="toggleDetail('detail-2', this)">
+        <div class="cours-card-badge">⭐ Favoris</div>
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Numérique & IA</span>
+          <span class="cours-card-duration">Pratique</span>
+        </div>
+        <h3>L'IA et l'Esprit Critique</h3>
+        <p>Découvrez l'étendue des possibilités de l'Intelligence Artificielle et apprenez à l'utiliser efficacement tout en gardant du recul.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 2 -->
+      <div class="detail-panel" id="detail-2">
+        <button class="detail-close" onclick="closeDetail('detail-2')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Numérique & IA</div>
+            <div class="detail-title">L'IA et l'Esprit Critique</div>
+            <div class="detail-desc">Ne subissez pas la révolution de l'IA, maîtrisez-la. Cette formation vous montre concrètement tout ce qu'il est possible d'accomplir avec les IA génératives (ChatGPT, Midjourney, etc.), comment optimiser vos requêtes et analyser les résultats avec discernement.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Format</div><div class="val">Ateliers pratiques</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Panorama des IA actuelles : ce qu'on peut (vraiment) faire</li>
+              <li>L'art du "Prompting" : comment bien parler à une IA</li>
+              <li>Gagner en productivité au quotidien (rédaction, analyse, visuels)</li>
+              <li>Développer son esprit critique face aux hallucinations de l'IA</li>
+              <li>Limites éthiques, droits d'auteur et sécurité des données</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 3 : CM B1 -->
+      <div class="cours-card reveal" data-cat="Communication" style="transition-delay:0.1s" onclick="toggleDetail('detail-3', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Communication</span>
+        </div>
+        <h3>Community Management</h3>
+        <p>Le rôle stratégique du Community Manager : ligne éditoriale, création de contenus engageants et gestion de communauté.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 3 -->
+      <div class="detail-panel" id="detail-3">
+        <button class="detail-close" onclick="closeDetail('detail-3')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Réseaux Sociaux</div>
+            <div class="detail-title">Community Management & Animation</div>
+            <div class="detail-desc">Une formation issue du syllabus Bachelor 1 (CMDE) pour comprendre comment animer une marque sur les réseaux sociaux. Vous y apprendrez à définir des objectifs, créer des personae et produire des contenus adaptés aux algorithmes de Meta, TikTok ou LinkedIn.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Format</div><div class="val">Théorie & Cas pratiques</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Intro au rôle du CM, missions et définition des KPIs</li>
+              <li>Stratégie social media : personae et ligne éditoriale</li>
+              <li>Création de contenus engageants (storytelling, algorithmes Meta/TikTok)</li>
+              <li>Animation, modération et anticipation du bad buzz</li>
+              <li>Analyse de données (Social listening) et reporting</li>
+              <li>Introduction à la publicité sur les réseaux (Social Ads)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 4 : LinkedIn -->
+      <div class="cours-card reveal" data-cat="Communication" style="transition-delay:0.15s" onclick="toggleDetail('detail-4', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Réseaux Sociaux</span>
+          <span class="cours-card-duration">2 parties</span>
+        </div>
+        <h3>Création & Optimisation de Profil LinkedIn</h3>
+        <p>Propulsez votre personal branding professionnel. Formation en 2 temps incluant un shooting photo.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 4 -->
+      <div class="detail-panel" id="detail-4">
+        <button class="detail-close" onclick="closeDetail('detail-4')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Réseaux Sociaux</div>
+            <div class="detail-title">Création & Optimisation de Profil LinkedIn</div>
+            <div class="detail-desc">Votre profil LinkedIn est votre vitrine professionnelle. Apprenez à le structurer, utiliser les bons mots-clés, et créer du contenu pour attirer des recruteurs ou des prospects. Le cours inclut une session photo pour un portrait impactant.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Spécificité</div><div class="val">Inclus : Sortie Photo</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Structurer un profil All-Star (Titre, bannière, résumé)</li>
+              <li>Stratégie de mots-clés pour ressortir dans les recherches</li>
+              <li>Sortie / Shooting photo </li>
+              <li>Développer son réseau et ses opportunités d'affaires</li>
+              <li>Prendre la parole : algorithme et formats de posts LinkedIn</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 5 : SMM M1 -->
+      <div class="cours-card reveal" data-cat="Communication" style="transition-delay:0.2s" onclick="toggleDetail('detail-5', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Communication</span>
+        </div>
+        <h3>Réseaux Sociaux & Social Media Marketing</h3>
+        <p>Intégrez une stratégie social media avancée dans votre mix marketing (Owned, Paid, Earned media).</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 5 -->
+      <div class="detail-panel" id="detail-5">
+        <button class="detail-close" onclick="closeDetail('detail-5')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Communication</div>
+            <div class="detail-title">Réseaux Sociaux & SMM (M1 ESTD)</div>
+            <div class="detail-desc">Ce module de Master 1 vous plonge au cœur du Social Media Marketing. Vous apprendrez à articuler ligne éditoriale, Social Ads et Community management stratégique tout en pilotant vos actions par le ROI et des KPI financiers (ROAS, CAC).</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Outils</div><div class="val">Meta Ads, Analytics</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Ligne éditoriale, segmentation avancée & calendrier narratif</li>
+              <li>Social Ads & Performance : ciblage, formats, KPI (ROAS, CAC)</li>
+              <li>Community Management stratégique et identité conversationnelle</li>
+              <li>Social Media Analytics, e-réputation et pilotage de projet</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 6 : Gestion de crise -->
+      <div class="cours-card reveal" data-cat="Management" style="transition-delay:0.25s" onclick="toggleDetail('detail-6', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Management</span>
+          <span class="cours-card-duration">Stratégie</span>
+        </div>
+        <h3>Gestion de Crise en Entreprise</h3>
+        <p>Anticiper, structurer sa réponse et communiquer efficacement lorsqu'une crise (interne ou externe) frappe l'entreprise.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 6 -->
+      <div class="detail-panel" id="detail-6">
+        <button class="detail-close" onclick="closeDetail('detail-6')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Management</div>
+            <div class="detail-title">Gestion de Crise</div>
+            <div class="detail-desc">La crise n'est pas une fatalité si elle est préparée. Ce cours vous donne les clés pour mettre en place une cellule de crise, réagir rapidement face à un bad buzz, protéger l'image de la marque et rebondir.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Méthode</div><div class="val">Mises en situation</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Comprendre l'écosystème et la typologie des crises</li>
+              <li>Mise en place et fonctionnement d'une cellule de crise</li>
+              <li>Définir une stratégie de réponse et les éléments de langage</li>
+              <li>Communication de crise en ligne (Bad buzz social media)</li>
+              <li>L'après-crise : bilan, retours d'expérience et reconstruction</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 7 : Brand Content M2 -->
+      <div class="cours-card reveal" data-cat="Communication" onclick="toggleDetail('detail-7', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Communication</span>
+        </div>
+        <h3>Digital Brand Content & Storytelling</h3>
+        <p>Maîtrisez l'art de raconter l'histoire d'une marque (pull marketing) à travers des contenus digitaux émotionnels.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 7 -->
+      <div class="detail-panel" id="detail-7">
+        <button class="detail-close" onclick="closeDetail('detail-7')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Communication</div>
+            <div class="detail-title">Digital Brand Content & Storytelling (M2 ESTD)</div>
+            <div class="detail-desc">Apprenez à différencier publicité traditionnelle et brand content. Vous découvrirez comment structurer un storytelling fort, engager votre communauté via l'UGC (User Generated Content) et explorer les tendances comme le Storyliving.</div>
+            <div class="detail-meta">
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Piliers du Storytelling : émotion, authenticité, narration</li>
+              <li>Brand content vs Publicité : décliner une histoire multi-canaux</li>
+              <li>Leviers d'engagement : UGC, co-création et challenges communautaires</li>
+              <li>Nouvelles tendances : branded entertainment, storyliving, apport de l'IA</li>
+              <li>Élaboration d'un calendrier éditorial narratif</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 8 : Stratégie Marketing M2 -->
+      <div class="cours-card reveal" data-cat="Marketing" style="transition-delay:0.05s" onclick="toggleDetail('detail-8', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Marketing</span>
+        </div>
+        <h3>Élaboration d'une Stratégie Marketing</h3>
+        <p>Du diagnostic de marché à l'élaboration d'un mix marketing omnicanal orienté data et performance.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 8 -->
+      <div class="detail-panel" id="detail-8">
+        <button class="detail-close" onclick="closeDetail('detail-8')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Marketing</div>
+            <div class="detail-title">Élaboration d'une Stratégie Marketing </div>
+            <div class="detail-desc">Un cours de niveau expert pour maîtriser les outils avancés d'analyse de marché (SWOT dynamique, PESTEL prospectif) et traduire ces données en un plan d'action opérationnel (objectifs SMART/OKR, segmentation avancée).</div>
+            <div class="detail-meta">
+              </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Outils avancés de diagnostic stratégique et benchmark international</li>
+              <li>Objectifs (SMART/OKR), segmentation et positionnement data-driven</li>
+              <li>Construction du mix marketing étendu (au-delà du 7P)</li>
+              <li>Intégration de l'expérience client et de l'omnicanalité</li>
+              <li>Conception du plan marketing : budget, roadmap et KPIs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 9 : Influence M2 -->
+      <div class="cours-card reveal" data-cat="Communication" style="transition-delay:0.1s" onclick="toggleDetail('detail-9', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Communication</span>
+        </div>
+        <h3>Stratégie d'Influence & SMM Avancé</h3>
+        <p>Pilotez l'architecture de vos médias et concevez des campagnes d'influence performantes B2C et B2B.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 9 -->
+      <div class="detail-panel" id="detail-9">
+        <button class="detail-close" onclick="closeDetail('detail-9')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Communication</div>
+            <div class="detail-title">Social Media Marketing & Stratégie d'Influence (M2)</div>
+            <div class="detail-desc">Définissez une stratégie d'influence complète : du choix des créateurs de contenu (nano, micro, macro) à la gestion des contrats, tout en mesurant précisément l'impact de vos campagnes via des KPIs spécifiques et le calcul du ROI.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Outils</div><div class="val">Talkwalker, Brandwatch</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Architecture des médias (POEM) et audit social media</li>
+              <li>Typologie, détection et scoring des influenceurs (B2C & B2B)</li>
+              <li>Gestion opérationnelle des collaborations (briefs, contrats)</li>
+              <li>Prévention et gestion de crise / Bad buzz influenceur</li>
+              <li>Mesure de la performance (ROI, ROAS, EMV) et tableaux de bord</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 10 : Entrepreneuriat -->
+      <div class="cours-card reveal" data-cat="Entrepreneuriat" style="transition-delay:0.15s" onclick="toggleDetail('detail-10', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Entrepreneuriat</span>
+          <span class="cours-card-duration">Bases pratiques</span>
+        </div>
+        <h3>Entrepreneuriat : Se lancer pas à pas</h3>
+        <p>Les clés concrètes pour créer son activité, gérer l'administratif de base (facturation) et trouver ses clients.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 10 -->
+      <div class="detail-panel" id="detail-10">
+        <button class="detail-close" onclick="closeDetail('detail-10')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Entrepreneuriat</div>
+            <div class="detail-title">Entrepreneuriat : Se lancer pas à pas</div>
+            <div class="detail-desc">Se lancer à son compte peut paraître vertigineux. Ce module démystifie la création d'entreprise en abordant les bases administratives (choix du statut, création de factures, devis) et les premières actions commerciales.</div>
+            <div class="detail-meta">
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Les différents statuts (Micro-entreprise, etc.) et comment se déclarer</li>
+              <li>Administratif : établir un devis et une facture conformes</li>
+              <li>Définir et structurer son offre commerciale (Pricing)</li>
+              <li>Stratégies simples pour trouver ses premiers clients</li>
+              <li>Gérer son organisation et son temps en tant qu'indépendant</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 11 : ECM -->
+      <div class="cours-card reveal" data-cat="Marketing" style="transition-delay:0.2s" onclick="toggleDetail('detail-11', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Marketing</span>
+          <span class="cours-card-duration">Module Complet</span>
+        </div>
+        <h3>Pilotage Stratégique, Marketing & Commercial (ECM)</h3>
+        <p>Programme opérationnel pour piloter un plan d'action : veille, datas, budgétisation, suivi KPI et phygital.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 11 -->
+      <div class="detail-panel" id="detail-11">
+        <button class="detail-close" onclick="closeDetail('detail-11')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Marketing</div>
+            <div class="detail-title">Pilotage Stratégique, Marketing & Commercial</div>
+            <div class="detail-desc">Formation exhaustive basée sur les blocs de compétences ECM. Elle couvre l'intégralité du déploiement d'une stratégie : de la veille au suivi budgétaire, en passant par l'omnicanalité, la gestion du parcours client et l'évènementiel.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Expertise</div><div class="val">Analytique & Opérationnel</div></div>
+              <div class="detail-meta-item"><div class="lbl">Focus</div><div class="val">Performance & ROI</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme détaillé des Blocs (Maîtrise confirmée)</div>
+            <ul class="detail-modules">
+              <li><strong>Veille Stratégique :</strong> Processus de collecte, outils, mapping et veille concurrentielle.</li>
+              <li><strong>Exploitation des Données :</strong> Mix marketing, audit du parcours client (irritants) et analyse SWOT/BCG via le CRM.</li>
+              <li><strong>Élaboration & Budget :</strong> Plan d'action SMART, cibles/personas, rétroplanning, budget prévisionnel et logique de rentabilité.</li>
+              <li><strong>Suivi d'Exécution :</strong> Tableaux de bord, mesure des écarts (KPI, taux de marge), reporting et actions correctrices.</li>
+              <li><strong>Distribution & Phygital :</strong> Stratégie de com omnicanale, webmarketing, optimisation des points de vente, gestion des stocks et merchandising.</li>
+              <li><strong>Écosystème & Évènementiel :</strong> Intégration des parties prenantes, gestion de projets évènementiels, RSE et animation de communauté.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURS 12 : Français B1 -->
+      <div class="cours-card reveal" data-cat="Communication" style="transition-delay:0.25s" onclick="toggleDetail('detail-12', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Communication</span>
+          <span class="cours-card-duration">Mise à niveau</span>
+        </div>
+        <h3>Remise à niveau en Français </h3>
+        <p>Consolidez vos bases en grammaire et rédaction pour gagner en aisance à l'écrit comme à l'oral au travail.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 12 -->
+      <div class="detail-panel" id="detail-12">
+        <button class="detail-close" onclick="closeDetail('detail-12')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Communication</div>
+            <div class="detail-title">Remise à niveau en Français (B1)</div>
+            <div class="detail-desc">Une communication écrite et orale fluide est indispensable en entreprise. Ce module cible les fondamentaux pour s'exprimer avec clarté, éviter les fautes courantes et rédiger des emails ou rapports professionnels impactants.</div>
+            <div class="detail-meta">
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Règles fondamentales de grammaire et d'orthographe</li>
+              <li>Conjugaison des temps essentiels (Présent, passé, futur, conditionnel)</li>
+              <li>Enrichir son vocabulaire professionnel</li>
+              <li>Méthodologie de rédaction (Emails, synthèses, lettres)</li>
+              <li>Prise de parole et compréhension orale</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- COURS 13 : Recherche d'Emploi & Arnaques -->
+      <div class="cours-card reveal" data-cat="Management" onclick="toggleDetail('detail-13', this)">
+        <div class="cours-card-header">
+          <span class="cours-card-cat">Management</span>
+          <span class="cours-card-duration">Ateliers pratiques</span>
+        </div>
+        <h3>Recherche d'Emploi & Prévention des Arnaques</h3>
+        <p>Acquérir les méthodes pour réussir sa recherche d'emploi, tout en apprenant à repérer et éviter les fraudes et fausses annonces.</p>
+        <div class="cours-card-footer">
+          <div class="cours-card-level">
+          </div>
+          <div class="cours-card-arrow">Voir le programme →</div>
+        </div>
+      </div>
+
+      <!-- DETAIL 13 -->
+      <div class="detail-panel" id="detail-13">
+        <button class="detail-close" onclick="closeDetail('detail-13')">✕</button>
+        <div class="detail-inner">
+          <div>
+            <div class="detail-cat">Insertion Professionnelle</div>
+            <div class="detail-title">Recherche d'Emploi & Prévention des Arnaques</div>
+            <div class="detail-desc">La recherche d'emploi en ligne comporte des risques. Ce cours vous donne les outils pour structurer efficacement vos candidatures, mais surtout pour décrypter les fausses annonces, comprendre les buts des escrocs (vols de données, arnaques financières) et savoir réagir.</div>
+            <div class="detail-meta">
+              <div class="detail-meta-item"><div class="lbl">Focus</div><div class="val">Sécurité & Méthodologie</div></div>
+            </div>
+            <a href="index.html#contact" class="detail-cta">Me contacter pour ce cours</a>
+          </div>
+          <div>
+            <div class="detail-modules-label">Programme du cours</div>
+            <ul class="detail-modules">
+              <li>Outils et méthodes pour une recherche d'emploi efficace</li>
+              <li>Anatomie d'une arnaque à l'emploi : signaux d'alerte et "red flags"</li>
+              <li>Comprendre le but des fraudeurs (usurpation d'identité, escroquerie...)</li>
+              <li>Les conséquences légales et personnelles de ces arnaques</li>
+              <li>Protéger ses données personnelles lors de l'envoi de CV et papiers d'identité</li>
+              <li>Que faire en cas d'arnaque : bons réflexes, signalement et recours</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /cours-grid -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Quentin Léa</div>
+    <p class="footer-copy">© 2026 Quentin Léa — Formateur en Marketing & Communication</p>
+  </footer>
+
+  <script>
+    // Reveal animation
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Toggle detail panel — opens AFTER the row containing the card
+    function toggleDetail(id, card) {
+      const panel = document.getElementById(id);
+      const isOpen = panel.classList.contains('visible');
+
+      // Close all
+      document.querySelectorAll('.detail-panel.visible').forEach(p => p.classList.remove('visible'));
+      document.querySelectorAll('.cours-card.active-card').forEach(c => c.classList.remove('active-card'));
+
+      if (!isOpen) {
+        // Move panel after current row
+        const grid = document.getElementById('cours-grid');
+        const cards = [...grid.querySelectorAll('.cours-card:not(.hidden)')];
+        const idx = cards.indexOf(card);
+        const cols = window.innerWidth <= 900 ? 1 : 3;
+        const rowEnd = cards[Math.min(idx - (idx % cols) + cols - 1, cards.length - 1)];
+        rowEnd.after(panel);
+        panel.classList.add('visible');
+        card.classList.add('active-card');
+        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      }
+    }
+
+    function closeDetail(id) {
+      document.getElementById(id).classList.remove('visible');
+      document.querySelectorAll('.cours-card.active-card').forEach(c => c.classList.remove('active-card'));
+    }
+
+    // Filter
+    function filterCours(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Close any open detail first
+      document.querySelectorAll('.detail-panel.visible').forEach(p => p.classList.remove('visible'));
+      document.querySelectorAll('.cours-card.active-card').forEach(c => c.classList.remove('active-card'));
+
+      document.querySelectorAll('.cours-card').forEach(card => {
+        if (cat === 'tous') {
+          card.classList.remove('hidden');
+        } else if (cat === 'Favoris') {
+          if (card.classList.contains('favori')) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        } else {
+          if (card.dataset.cat === cat) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
